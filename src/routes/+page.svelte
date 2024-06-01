@@ -12,7 +12,6 @@
                 opmlText = e.target.result;
                 const outline = opml.parse(opmlText);
                 numItems = opml.countFeeds(outline);
-                console.log(`OPML file loaded with ${numItems} feeds`);
             };
             reader.readAsText(file);
         }
