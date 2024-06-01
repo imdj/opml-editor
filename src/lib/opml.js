@@ -1,7 +1,7 @@
 const opml = {
     parse: parseOPML,
-    serialize: serializeOPML,
-    countFeeds: countFeeds
+    countFeeds: countFeeds,
+    removeDupes: removeDupesFromOPML
 };
 
 export default opml;
@@ -13,9 +13,14 @@ function parseOPML(opmlString) {
 
     // Recursive function to parse an outline element
     const parseOutline = outline => {
-        const title = outline.getAttribute("title") || outline.getAttribute("text");
-        const xmlUrl = outline.getAttribute("xmlUrl");
-        const isGroup = !xmlUrl;
+        // keep attributes for future use
+        const attributes = {};
+        for (let i = 0; i < outline.attributes.length; i++) {
+            const attr = outline.attributes[i];
+            attributes[attr.name] = attr.value;
+        }
+
+        const isGroup = !outline.getAttribute("xmlUrl");
         const children = [];
 
         if (isGroup) {
@@ -25,7 +30,7 @@ function parseOPML(opmlString) {
             });
         }
 
-        return { title, xmlUrl, children };
+        return { attributes, children };
     };
 
     const body = xmlDoc.querySelector("body");
@@ -41,39 +46,12 @@ function parseOPML(opmlString) {
     return result;
 }
 
-function serializeOPML(opmlData) {
-    const xmlDoc = document.implementation.createDocument("", "", null);
-    const opmlElement = xmlDoc.createElement("opml");
-    opmlElement.setAttribute("version", "2.0");
-
-    const head = xmlDoc.createElement("head");
-    const title = xmlDoc.createElement("title");
-    title.textContent = "Example OPML";
-    head.appendChild(title);
-    opmlElement.appendChild(head);
-
-    const body = xmlDoc.createElement("body");
-
-    opmlData.forEach(item => {
-        const outline = xmlDoc.createElement("outline");
-        outline.setAttribute("text", item.title);
-        outline.setAttribute("xmlUrl", item.xmlUrl);
-        body.appendChild(outline);
-    });
-
-    opmlElement.appendChild(body);
-    xmlDoc.appendChild(opmlElement);
-
-    const serializer = new XMLSerializer();
-    return serializer.serializeToString(xmlDoc);
-}
-
 function countFeeds(opmlData) {
     let count = 0;
 
     const countFeedsRecursive = data => {
         data.forEach(item => {
-            if (item.xmlUrl) {
+            if (item.attributes.xmlUrl) {
                 count++;
             }
             if (item.children && item.children.length > 0) {
@@ -84,4 +62,61 @@ function countFeeds(opmlData) {
 
     countFeedsRecursive(opmlData);
     return count;
+}
+
+// keep metadata but remove duplicates based on the xmlUrl
+function removeDuplicates(opmlData) {
+    const unique = [];
+
+    const removeDuplicatesRecursive = data => {
+        data.forEach(item => {
+            if (item.attributes.xmlUrl) {
+                const existing = unique.find(feed => feed.attributes.xmlUrl === item.attributes.xmlUrl);
+                if (!existing) {
+                    unique.push(item);
+                }
+            }
+            else if (item.children && item.children.length > 0) {
+                item.children = removeDuplicates(item.children);
+                unique.push(item);
+            }
+            else {
+                unique.push(item);
+            }
+        });
+    };
+
+    removeDuplicatesRecursive(opmlData);
+    return unique;
+}
+
+// keep metadata but remove duplicates based on the xmlUrl
+function removeDupesFromOPML(opmlString) {
+    const opmlData = parseOPML(opmlString);
+    const unique = removeDuplicates(opmlData);
+
+    const head = opmlString.substring(0, opmlString.indexOf("<body>"));
+
+    const opmlDoc = new DOMParser().parseFromString(head + "<body></body></opml>", "text/xml");
+    const body = opmlDoc.querySelector("body");
+
+    const appendOutline = (parent, item) => {
+        const outline = opmlDoc.createElement("outline");
+        for (const key in item.attributes) {
+            outline.setAttribute(key, item.attributes[key]);
+        }
+        if (item.children) {
+            item.children.forEach(child => {
+                appendOutline(outline, child);
+            });
+        }
+        parent.appendChild(outline);
+    };
+
+
+    unique.forEach(item => {
+        appendOutline(body, item);
+    });
+
+    return new XMLSerializer().serializeToString(opmlDoc);
 }

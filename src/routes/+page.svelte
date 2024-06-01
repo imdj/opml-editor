@@ -1,7 +1,10 @@
 <script>
-    import xmlFormat from 'xml-formatter';
+    import CodeMirror from "svelte-codemirror-editor";
+    import { xml } from "@codemirror/lang-xml";
+    import xmlFormat from "xml-formatter";
     import opml from "$lib/opml.js";
-    let opmlText = null;
+
+    let opmlText;
     let numItems = 0;
 
     function handleFileSelect(event) {
@@ -9,12 +12,22 @@
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                opmlText = e.target.result;
+                opmlText = xmlFormat(String(e.target.result));
                 const outline = opml.parse(opmlText);
                 numItems = opml.countFeeds(outline);
             };
             reader.readAsText(file);
         }
+    }
+
+    function saveToFile() {
+        const blob = new Blob([opmlText], { type: "text/xml" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feeds.opml";
+        a.click();
+        URL.revokeObjectURL(url);
     }
 </script>
 
@@ -23,17 +36,17 @@
     <meta name="description" content="Free online editor to create, edit, and merge OPML files.">
 </svelte:head>
 
-<main class="container mx-auto flex flex-col grow items-center">
-<h1 class="text-4xl font-bold mt-8">Free Online OPML Editor</h1>
-<div class="flex flex-col w-full items-center mt-8">
-    <input type="file" accept=".opml" onchange={handleFileSelect} />
-    {#if opmlText === null}
-        <p class="mt-4">Select an OPML file to start editing</p>
-    {:else}
-        <p class="mt-4">Loaded {numItems} feeds</p>
-        <textarea class="w-full h-96 mt-4 p-2 border-2 rounded-2xl">{xmlFormat(opmlText)}</textarea>
-    {/if}
-</div>
+<main class="container mx-auto flex flex-col grow items-center p-4">
+    <h1 class="text-4xl font-bold mt-8">Free Online OPML Editor</h1>
+    <div class="flex flex-col grow w-full items-center mt-8">
+        <input type="file" accept=".opml" on:change={handleFileSelect} />
+        <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg mt-4" on:click={() => { opmlText = xmlFormat(opml.removeDupes(opmlText)) }}>Remove duplicates</button>
+        <CodeMirror class="w-full h-96 grow overflow-y-auto mt-4 p-2 border-2 rounded-xl" bind:value={opmlText} lang={xml()} />
+    </div>
+    <div class="flex flex-row w-full items-center mt-4 gap-2 flex-wrap">
+        <p class="text-lg">Number of feeds: {numItems}</p>
+        <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg" on:click={() => { saveToFile() }}>Save file</button>
+    </div>
 </main>
 
 <footer class="flex flex-wrap justify-center items-center gap-2 mt-4 mb-2">
