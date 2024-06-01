@@ -1,14 +1,21 @@
 <script>
-    let opml;
+    import xmlFormat from 'xml-formatter';
+    import opml from "$lib/opml.js";
+    let opmlText = null;
+    let numItems = 0;
 
     function handleFileSelect(event) {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            opml = e.target.result;
-            console.log(opml)
-        };
-        reader.readAsText(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                opmlText = e.target.result;
+                const outline = opml.parse(opmlText);
+                numItems = opml.countFeeds(outline);
+                console.log(`OPML file loaded with ${numItems} feeds`);
+            };
+            reader.readAsText(file);
+        }
     }
 </script>
 
@@ -20,8 +27,13 @@
 <main class="container mx-auto flex flex-col grow items-center">
 <h1 class="text-4xl font-bold mt-8">Free Online OPML Editor</h1>
 <div class="flex flex-col w-full items-center mt-8">
-    <input type="file" accept=".opml" on:change={handleFileSelect} />
-    <textarea class="w-full h-96 mt-4" bind:value={opml}></textarea>
+    <input type="file" accept=".opml" onchange={handleFileSelect} />
+    {#if opmlText === null}
+        <p class="mt-4">Select an OPML file to start editing</p>
+    {:else}
+        <p class="mt-4">Loaded {numItems} feeds</p>
+        <textarea class="w-full h-96 mt-4 p-2 border-2 rounded-2xl">{xmlFormat(opmlText)}</textarea>
+    {/if}
 </div>
 </main>
 
