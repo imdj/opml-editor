@@ -45,7 +45,7 @@
     </div>
     <div class="flex flex-row w-full items-center mt-4 gap-2 flex-wrap">
         <p class="text-lg">Number of feeds: {numItems}</p>
-        <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg" on:click={() => { saveToFile() }}>Save file</button>
+        <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg disabled:bg-slate-500 disabled:opacity-50 disabled:cursor-not-allowed" on:click={() => { saveToFile() }} disabled={opmlText === "" }>Save file</button>
     </div>
 </main>
 
