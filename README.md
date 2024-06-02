@@ -9,5 +9,9 @@ Written in SvelteKit.
 - Merge multiple OPML files
 - Remove duplicates
 
+## Acknowledgements
+- [Svelte](https://svelte.dev/)
+- [CodeMirror](https://codemirror.net/) & [svelte-codemirror-editor](https://github.com/touchifyapp/svelte-codemirror-editor)
+
 ## LICENSE
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
