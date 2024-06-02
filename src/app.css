@@ -5,3 +5,31 @@
 html, body {
     height: 100%;
 }
+
+h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+}
+
+h1 {
+    @apply text-5xl mt-6 mb-4;
+}
+
+h2 {
+    @apply text-3xl mt-6 mb-4;
+}
+
+h3 {
+    @apply text-2xl mt-6 mb-4;
+}
+
+h4 {
+    @apply text-xl mt-6 mb-4;
+}
+
+h5 {
+    @apply text-lg mt-6 mb-4;
+}
+
+h6 {
+    @apply text-base mt-6 mb-4;
+}
