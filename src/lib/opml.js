@@ -98,7 +98,7 @@ function removeDupesFromOPML(opmlString) {
 
     const head = opmlString.substring(0, opmlString.indexOf("<body>"));
 
-    const opmlDoc = new DOMParser().parseFromString(head + "<body></body></opml>", "text/xml");
+    const opmlDoc = new DOMParser().parseFromString(head + "<body>\n</body></opml>", "text/xml");
     const body = opmlDoc.querySelector("body");
 
     const appendOutline = (parent, item) => {
