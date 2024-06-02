@@ -3,9 +3,11 @@
     import { xml } from "@codemirror/lang-xml";
     import xmlFormat from "xml-formatter";
     import opml from "$lib/opml.js";
+    import {browser} from "$app/environment";
 
     let opmlText;
     let numItems = 0;
+    $: numItems = browser && opml.countFeeds(opml.parse(opmlText));
 
     function handleFileSelect(event) {
         const file = event.target.files[0];
