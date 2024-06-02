@@ -57,7 +57,7 @@
         <div class="flex w-full h-96 grow overflow-y-auto relative mt-4 p-2 border-2 rounded-xl items-center justify-center bg-slate-100">
             <label for="opmlFile" class="absolute text-lg text-center m-auto opacity-70 z-10 pointer-events-none">
                 <div><svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-16 text-gray-500 mb-4" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 20h12m-6-4V4m0 0l3.5 3.5M12 4L8.5 7.5"/></svg></div>
-                Upload an OPML file or <button class="text-sky-500 hover:text-sky-700" on:click={() => { opmlText = xmlFormat(opml.createEmpty()) }}>Create a new one</button>
+                Upload an OPML file or <button class="text-sky-500 hover:text-sky-700 pointer-events-auto" on:click={() => { opmlText = xmlFormat(opml.createEmpty()) }}>Create a new one</button>
             </label>
             <input type="file" accept=".opml" on:change={handleFileSelect} class="opacity-0 w-full h-full cursor-pointer"/>
         </div>
