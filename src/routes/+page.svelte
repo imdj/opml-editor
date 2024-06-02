@@ -39,9 +39,18 @@
 <main class="container mx-auto flex flex-col grow items-center p-4">
     <h1 class="text-4xl font-bold mt-8">Free Online OPML Editor</h1>
     <div class="flex flex-col grow w-full items-center mt-8">
-        <input type="file" accept=".opml" on:change={handleFileSelect} />
         <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg mt-4" on:click={() => { opmlText = xmlFormat(opml.removeDupes(opmlText)) }}>Remove duplicates</button>
-        <CodeMirror class="w-full h-96 grow overflow-y-auto mt-4 p-2 border-2 rounded-xl" bind:value={opmlText} lang={xml()} />
+
+        {#if opmlText === ""}
+            <div class="flex w-full h-96 grow overflow-y-auto relative mt-4 p-2 border-2 rounded-xl items-center justify-center bg-slate-100">
+                <label for="opmlFile" class="absolute text-lg m-auto opacity-70 z-10">
+                    Upload an OPML file or <button class="text-sky-500 hover:text-sky-700" on:click={() => { opmlText = xmlFormat(opml.createEmpty()) }}>Create a new one</button>
+                </label>
+                <input type="file" accept=".opml" on:change={handleFileSelect} class="opacity-0 w-full h-full cursor-pointer"/>
+            </div>
+        {:else }
+            <CodeMirror class="w-full h-96 grow overflow-y-auto mt-4 p-2 border-2 rounded-xl" bind:value={opmlText} lang={xml()} />
+        {/if}
     </div>
     <div class="flex flex-row w-full items-center mt-4 gap-2 flex-wrap">
         <p class="text-lg">Number of feeds: {numItems}</p>

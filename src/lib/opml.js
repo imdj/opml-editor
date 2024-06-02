@@ -1,7 +1,8 @@
 const opml = {
     parse: parseOPML,
     countFeeds: countFeeds,
-    removeDupes: removeDupesFromOPML
+    removeDupes: removeDupesFromOPML,
+    createEmpty: createEmpty
 };
 
 export default opml;
@@ -119,4 +120,15 @@ function removeDupesFromOPML(opmlString) {
     });
 
     return new XMLSerializer().serializeToString(opmlDoc);
+}
+
+function createEmpty() {
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+    <head>
+        <title>Feeds</title>
+    </head>
+    <body>
+    </body>
+</opml>`;
 }
