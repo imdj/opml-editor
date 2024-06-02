@@ -39,7 +39,7 @@
 <main class="container mx-auto flex flex-col grow items-center p-4">
     <h1 class="text-4xl font-bold mt-8">Free Online OPML Editor</h1>
     <div class="flex flex-col grow w-full items-center mt-8">
-        <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg mt-4" on:click={() => { opmlText = xmlFormat(opml.removeDupes(opmlText)) }}>Remove duplicates</button>
+        <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg mt-4 disabled:bg-slate-500 disabled:opacity-50 disabled:cursor-not-allowed" on:click={() => { opmlText = xmlFormat(opml.removeDupes(opmlText)) }} disabled={opmlText === "" }>Remove duplicates</button>
 
         {#if opmlText === ""}
             <div class="flex w-full h-96 grow overflow-y-auto relative mt-4 p-2 border-2 rounded-xl items-center justify-center bg-slate-100">
