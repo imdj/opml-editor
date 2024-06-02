@@ -5,9 +5,20 @@
     import opml from "$lib/opml.js";
     import {browser} from "$app/environment";
 
-    let opmlText;
+    let opmlText = "";
     let numItems = 0;
-    $: numItems = browser && opml.countFeeds(opml.parse(opmlText));
+
+    function updateCount(opmlText) {
+        if (browser) {
+            if (opmlText === "") {
+                numItems = 0;
+                return;
+            }
+            numItems = opml.countFeeds(opml.parse(opmlText));
+        }
+    }
+
+    $: updateCount(opmlText)
 
     function handleFileSelect(event) {
         const file = event.target.files[0];
@@ -15,8 +26,6 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 opmlText = xmlFormat(String(e.target.result));
-                const outline = opml.parse(opmlText);
-                numItems = opml.countFeeds(outline);
             };
             reader.readAsText(file);
         }
