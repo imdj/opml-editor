@@ -1,10 +1,24 @@
-<h1>About OPML</h1>
+<h1>About</h1>
 
+<h2>About the editor</h2>
 <p>
-    OPML (Outline Processor Markup Language) is a simple XML-based file format mainly used for syndication feedlists and exchanging subscriptions between feed readers and aggregators.
+    OPML is based around the concept of an "outline", a hierarchical structure that can represent a wide variety of information. Editors built around this structure are often called "outliners".
+    <br>
+    Although this editor fully support the OPML specification, it's more tailored for managing RSS/Atom feed lists specifically as a supplement to feed readers.
 </p>
 
-<h2>Specification</h2>
+Why?
+<br>
+OPML is a great way to manage and share feed lists. It's simple and widely supported by many feed readers.
+But often you find that feed readers are a bit rigid, and on the other hand, the files are too large and cubersome to manually edit in a standard text editor.
+So that's where this editor comes in, it's a simple tool to help you manage your feed lists in a more flexible way. It's tailored for this specific use case and committed to make it as smooth as possible.
+
+<h2>About OPML</h2>
+<p>
+    OPML (Outline Processor Markup Language) is a simple XML-based file format that is commonly used to structure and exchange hierarchical lists of information (outlines) between applications. The outline format is versatile and can be used to represent a wide variety of hierarchical information, including bookmarks, notes, to-do lists, project plans, and RSS/Atom feeds.
+</p>
+
+<h2>OPML Specification</h2>
 <p>
     It was developed by <a href="https://davewiner.com/">Dave Winer</a>. The first version (1.0) was released in 2000. The current version is 2.0, released in 2007.
 </p>
@@ -29,16 +43,6 @@
     &lt;/opml&gt;
 </pre>
 
-<h2>More examples</h2>
-<ul>
-    <li><a href="http://hosting.opml.org/dave/spec/subscriptionList.opml" target="_blank" rel="nofollow noreferrer">https://hosting.opml.org/dave/spec/subscriptionList.opml#</a></li>
-    <li><a href="http://hosting.opml.org/dave/spec/states.opml" target="_blank" rel="nofollow noreferrer">https://hosting.opml.org/dave/spec/states.opml#</a></li>
-    <li><a href="http://hosting.opml.org/dave/spec/simpleScript.opml" target="_blank" rel="nofollow noreferrer">https://hosting.opml.org/dave/spec/simpleScript.opml#</a></li>
-    <li><a href="http://hosting.opml.org/dave/spec/placesLived.opml" target="_blank" rel="nofollow noreferrer">https://hosting.opml.org/dave/spec/placesLived.opml#</a></li>
-    <li><a href="http://hosting.opml.org/dave/spec/directory.opml" target="_blank" rel="nofollow noreferrer">https://hosting.opml.org/dave/spec/directory.opml#</a></li>
-    <li><a href="http://hosting.opml.org/dave/spec/category.opml" target="_blank" rel="nofollow noreferrer">https://hosting.opml.org/dave/spec/category.opml#</a></li>
-</ul>
-
 <style>
     ul {
         @apply list-disc list-inside;
@@ -46,5 +50,9 @@
 
     ul li a {
         @apply break-all;
+    }
+
+    p {
+        @apply mb-4;
     }
 </style>

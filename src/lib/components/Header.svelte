@@ -15,7 +15,7 @@
         </button>
         <ul class="absolute shadow-2xl w-48 right-0 rounded-lg bg-white p-1" style:visibility={isDropdownOpen ? 'visible' : 'hidden'}>
             <li><a class="block p-2 rounded hover:bg-slate-200" href="/">Editor</a></li>
-            <li><a class="block p-2 rounded hover:bg-slate-200" href="/about">About OPML</a></li>
+            <li><a class="block p-2 rounded hover:bg-slate-200" href="/about">About</a></li>
         </ul>
     </div>
 </header>
