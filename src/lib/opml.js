@@ -3,7 +3,8 @@ const opml = {
     countFeeds: countFeeds,
     removeDupes: removeDupesFromOPML,
     createEmpty: createEmpty,
-    merge: merge
+    merge: merge,
+    removeItems: removeItems
 };
 
 
@@ -146,6 +147,23 @@ function merge(og, newOPML) {
     const newBody = newDoc.querySelector("body");
 
     bodyElement.append(...newBody.children);
+
+    return new XMLSerializer().serializeToString(opmlDoc);
+}
+
+function removeItems(opmlString, items) {
+    const opmlDoc = new DOMParser().parseFromString(opmlString, "text/xml");
+    const body = opmlDoc.querySelector("body");
+    const outlines = body.querySelectorAll(":scope > outline");
+
+    // strip matching items from the opmlData
+    items.forEach(item => {
+        outlines.forEach(outline => {
+            if (outline.getAttribute("xmlUrl") === item.attributes.xmlUrl) {
+                body.removeChild(outline);
+            }
+        });
+    });
 
     return new XMLSerializer().serializeToString(opmlDoc);
 }
