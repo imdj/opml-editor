@@ -5,9 +5,12 @@ const opml = {
     createEmpty: createEmpty
 };
 
+
 export default opml;
 
 function parseOPML(opmlString) {
+    let id = 0;
+
     // Parse the XML string into a document object
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(opmlString, "text/xml");
@@ -31,7 +34,7 @@ function parseOPML(opmlString) {
             });
         }
 
-        return { attributes, children };
+        return { id, attributes, children };
     };
 
     const body = xmlDoc.querySelector("body");
@@ -42,6 +45,7 @@ function parseOPML(opmlString) {
 
     outlines.forEach(outline => {
         result.push(parseOutline(outline));
+        id++;
     });
 
     return result;

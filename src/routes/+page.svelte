@@ -4,9 +4,16 @@
     import xmlFormat from "xml-formatter";
     import opml from "$lib/opml.js";
     import {browser} from "$app/environment";
+    import OutlinerView from "$lib/components/OutlinerView.svelte";
+    import { setContext } from "svelte";
+    import {writable} from 'svelte/store';
 
     let opmlText = "";
     let numItems = 0;
+    let outliner_view = writable(false);
+    let selectedItems = writable([]);
+    setContext("selectedItems", selectedItems);
+    setContext("outliner_view", outliner_view);
 
     function updateCount(opmlText) {
         if (browser) {
@@ -52,7 +59,6 @@
 </div>
 <div class="flex flex-col grow w-full items-center mt-8">
     <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg mt-4 disabled:bg-slate-500 disabled:opacity-50 disabled:cursor-not-allowed" on:click={() => { opmlText = xmlFormat(opml.removeDupes(opmlText)) }} disabled={opmlText === "" }>Remove duplicates</button>
-
     {#if opmlText === ""}
         <div class="flex w-full h-96 grow overflow-y-auto relative mt-4 p-2 border-2 rounded-xl items-center justify-center bg-slate-100">
             <label for="opmlFile" class="absolute text-lg text-center m-auto opacity-70 z-10 pointer-events-none">
@@ -61,8 +67,17 @@
             </label>
             <input type="file" accept=".opml" on:change={handleFileSelect} class="opacity-0 w-full h-full cursor-pointer"/>
         </div>
+    {:else if $outliner_view}
+        <div class="w-full h-96 grow overflow-y-auto mt-4 p-2 border-2 rounded-xl">
+            <OutlinerView data="{opml.parse(opmlText)}" />
+        </div>
     {:else }
-        <CodeMirror class="w-full h-96 grow overflow-y-auto mt-4 p-2 border-2 rounded-xl" bind:value={opmlText} lang={xml()} />
+        <div class="w-full h-96 grow overflow-y-auto mt-4 p-2 border-2 rounded-xl">
+            <div class="flex flex-row">
+                <button class="py-1 px-2 ml-auto" on:click={() => $outliner_view = !$outliner_view}>Toggle outliner view</button>
+            </div>
+            <CodeMirror bind:value={opmlText} lang={xml()} />
+        </div>
     {/if}
 </div>
 <div class="flex flex-row w-full items-center mt-4 gap-2 flex-wrap">

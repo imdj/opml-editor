@@ -33,3 +33,7 @@ h5 {
 h6 {
     @apply text-base mt-6 mb-4;
 }
+
+a {
+    @apply underline;
+}
