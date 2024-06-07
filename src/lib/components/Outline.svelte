@@ -11,14 +11,14 @@
             $selectedItems = $selectedItems.filter(e => e.id !== item.id);
             isSelected = false;
         } else {
-            $selectedItems.push(item);
+            $selectedItems = [...$selectedItems, item];
             isSelected = true;
         }
     }
 </script>
 
 
-<button class="flex flex-row w-full py-1 px-2" on:click={() => select()}>
+<button class="flex flex-row w-full py-1 px-2" on:click={select}>
     <input type="checkbox" class="mr-2 self-baseline mt-3" checked={isSelected} />
 
     {#if !item.attributes.xmlUrl}
