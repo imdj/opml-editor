@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>About - OPML Editor</title>
+</svelte:head>
+
 <h1>About</h1>
 
 <h2>About the editor</h2>
