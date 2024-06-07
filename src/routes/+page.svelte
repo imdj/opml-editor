@@ -58,7 +58,6 @@
     <h1 class="text-4xl font-bold mt-8">Free Online OPML Editor</h1>
 </div>
 <div class="flex flex-col grow w-full items-center mt-8">
-    <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg mt-4 disabled:bg-slate-500 disabled:opacity-50 disabled:cursor-not-allowed" on:click={() => { opmlText = xmlFormat(opml.removeDupes(opmlText)) }} disabled={opmlText === "" }>Remove duplicates</button>
     {#if opmlText === ""}
         <div class="flex w-full h-96 grow overflow-y-auto relative mt-4 p-2 border-2 rounded-xl items-center justify-center bg-slate-100">
             <label for="opmlFile" class="absolute text-lg text-center m-auto opacity-70 z-10 pointer-events-none">
@@ -68,15 +67,32 @@
             <input type="file" accept=".opml" on:change={handleFileSelect} class="opacity-0 w-full h-full cursor-pointer"/>
         </div>
     {:else if $outliner_view}
-        <div class="w-full h-96 grow overflow-y-auto mt-4 p-2 border-2 rounded-xl">
+        <div class="flex flex-col w-full h-96 flex-grow mt-4 border-2 rounded-xl">
             <OutlinerView data="{opml.parse(opmlText)}" />
         </div>
     {:else }
-        <div class="w-full h-96 grow overflow-y-auto mt-4 p-2 border-2 rounded-xl">
-            <div class="flex flex-row">
-                <button class="py-1 px-2 ml-auto" on:click={() => $outliner_view = !$outliner_view}>Toggle outliner view</button>
+        <div class="flex flex-col w-full h-96 flex-grow mt-4 border-2 rounded-xl">
+            <div class="sticky top-0 flex flex-row bg-white z-10 w-full rounded-t-xl p-0.5 border-b-2">
+                <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" disabled={opmlText === "" }>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.992 17h3m3 0h-3m0 0v-3m0 3v3"/><path d="M4 9.4V4.6a.6.6 0 0 1 .6-.6h4.8a.6.6 0 0 1 .6.6v4.8a.6.6 0 0 1-.6.6H4.6a.6.6 0 0 1-.6-.6Zm0 10v-4.8a.6.6 0 0 1 .6-.6h4.8a.6.6 0 0 1 .6.6v4.8a.6.6 0 0 1-.6.6H4.6a.6.6 0 0 1-.6-.6Zm10-10V4.6a.6.6 0 0 1 .6-.6h4.8a.6.6 0 0 1 .6.6v4.8a.6.6 0 0 1-.6.6h-4.8a.6.6 0 0 1-.6-.6Z"/></g></svg>
+                    Add new feed
+                </button>
+                <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" disabled={opmlText === "" }>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M22 14V8.5M6 13V6a3 3 0 0 1 3-3h5m2.992 1h3m3 0h-3m0 0V1m0 3v3M12 21H6a4 4 0 0 1 0-8h12a4 4 0 1 0 4 4v-3"/></svg>
+                    Add file
+                </button>
+                <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" on:click={() => { opmlText = xmlFormat(opml.removeDupes(opmlText)) }} disabled={opmlText === "" }>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M7 2h9.5L21 6.5V19"/><path d="M11 22h5.5a1.5 1.5 0 0 0 1.5-1.5V8.749a.6.6 0 0 0-.176-.425l-3.148-3.148A.6.6 0 0 0 14.25 5H4.5A1.5 1.5 0 0 0 3 6.5V13m-1.008 6h6"/><path d="M14 5v3.4a.6.6 0 0 0 .6.6H18"/></g></svg>
+                    Remove duplicates
+                </button>
+                <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg ml-auto hover:bg-slate-200" on:click={() => $outliner_view = !$outliner_view}>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3 13c3.6-8 14.4-8 18 0"/><path d="M12 17a3 3 0 1 1 0-6a3 3 0 0 1 0 6"/></g></svg>
+                    Outliner view
+                </button>
             </div>
-            <CodeMirror bind:value={opmlText} lang={xml()} />
+            <div class="p-2 flex-grow overflow-y-auto">
+                <CodeMirror bind:value={opmlText} lang={xml()} />
+            </div>
         </div>
     {/if}
 </div>

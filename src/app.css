@@ -37,3 +37,7 @@ h6 {
 a {
     @apply underline;
 }
+
+button {
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+}
