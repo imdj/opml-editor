@@ -2,7 +2,8 @@ const opml = {
     parse: parseOPML,
     countFeeds: countFeeds,
     removeDupes: removeDupesFromOPML,
-    createEmpty: createEmpty
+    createEmpty: createEmpty,
+    merge: merge
 };
 
 
@@ -135,4 +136,16 @@ function createEmpty() {
     <body>
     </body>
 </opml>`;
+}
+
+function merge(og, newOPML) {
+    const opmlDoc = new DOMParser().parseFromString(og, "text/xml");
+    const bodyElement = opmlDoc.querySelector("body");
+
+    const newDoc = new DOMParser().parseFromString(newOPML, "text/xml");
+    const newBody = newDoc.querySelector("body");
+
+    bodyElement.append(...newBody.children);
+
+    return new XMLSerializer().serializeToString(opmlDoc);
 }

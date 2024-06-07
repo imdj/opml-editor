@@ -47,6 +47,24 @@
         a.click();
         URL.revokeObjectURL(url);
     }
+
+    function mergeOPML() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".opml";
+        input.onchange = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const newOPML = xmlFormat(String(e.target.result));
+                    opmlText = xmlFormat(opml.merge(opmlText, newOPML));
+                };
+                reader.readAsText(file);
+            }
+        };
+        input.click();
+    }
 </script>
 
 <svelte:head>
@@ -73,7 +91,7 @@
     {:else }
         <div class="flex flex-col w-full h-96 flex-grow mt-4 border-2 rounded-xl">
             <div class="sticky top-0 flex flex-row bg-white z-10 w-full rounded-t-xl p-0.5 border-b-2">
-                <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" disabled={opmlText === "" }>
+                <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" on:click={mergeOPML} disabled={opmlText === "" }>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M22 14V8.5M6 13V6a3 3 0 0 1 3-3h5m2.992 1h3m3 0h-3m0 0V1m0 3v3M12 21H6a4 4 0 0 1 0-8h12a4 4 0 1 0 4 4v-3"/></svg>
                     Add file
                 </button>
