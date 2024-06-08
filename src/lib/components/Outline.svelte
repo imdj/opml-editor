@@ -23,23 +23,23 @@
 
     {#if !item.attributes.xmlUrl}
         <details class="flex-grow text-start" open>
-            <summary class="text-2xl mt-2">
+            <summary class="text-2xl">
                 {item.attributes.title}
             </summary>
             {#if item.children && item.children.length > 0}
-                <ul>
+                <ul class="ml-4">
                     {#each item.children as child}
                         <li><svelte:self item={child}/></li>
                     {/each}
                 </ul>
             {:else}
-                <p class="opacity-50">No feeds</p>
+                <p class="ml-4 opacity-50">No feeds</p>
             {/if}
         </details>
     {:else}
         <div class="flex-grow text-start">
             <div class="text-2xl">{item.attributes.title}</div>
-            <a href={item.attributes.xmlUrl} target="_blank">{item.attributes.xmlUrl}</a>
+            <a href={item.attributes.xmlUrl} class="text-gray-500" target="_blank">{item.attributes.xmlUrl}</a>
         </div>
     {/if}
 </button>

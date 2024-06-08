@@ -28,7 +28,7 @@
     }
 </script>
 
-<div class="sticky top-0 flex flex-row bg-white z-10 w-full rounded-t-xl p-0.5 border-b-2">
+<div class="sticky top-0 flex flex-row gap-1 bg-white z-10 w-full rounded-t-xl p-0.5 border-b-2">
     <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" on:click={() => selectAll()}>
         <input type="checkbox" checked={all_selected} class="mr-1"/>
         {all_selected? 'Deselect all' : 'Select all'}
