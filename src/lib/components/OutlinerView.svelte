@@ -9,7 +9,7 @@
 
     export let data;
 
-    $: all_selected = data.length === $selectedItems.length && data.every(item => $selectedItems.some(e => e.id === item.id));
+    $: all_selected = data.length === $selectedItems.length && $selectedItems.length > 0 && data.every(item => $selectedItems.some(e => e.id === item.id));
 
     function selectAll() {
         if (all_selected) {
