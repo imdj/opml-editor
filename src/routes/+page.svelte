@@ -91,7 +91,11 @@
         </div>
     {:else }
         <div class="flex flex-col w-full h-96 flex-grow mt-4 border-2 rounded-xl">
-            <div class="sticky top-0 flex flex-row bg-white z-10 w-full rounded-t-xl p-0.5 border-b-2">
+            <div class="sticky top-0 flex flex-row gap-1 bg-white z-10 w-full rounded-t-xl p-0.5 border-b-2">
+                <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" on:click={saveToFile} disabled={$opmlContent === "" }>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 20h12M12 4v12m0 0l3.5-3.5M12 16l-3.5-3.5"/></svg>
+                    Save file
+                </button>
                 <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" on:click={mergeOPML} disabled={$opmlContent === "" }>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M22 14V8.5M6 13V6a3 3 0 0 1 3-3h5m2.992 1h3m3 0h-3m0 0V1m0 3v3M12 21H6a4 4 0 0 1 0-8h12a4 4 0 1 0 4 4v-3"/></svg>
                     Add file
@@ -113,5 +117,4 @@
 </div>
 <div class="flex flex-row w-full items-center mt-4 gap-2 flex-wrap">
     <p class="text-lg">Number of feeds: {numItems}</p>
-    <button class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg disabled:bg-slate-500 disabled:opacity-50 disabled:cursor-not-allowed" on:click={() => { saveToFile() }} disabled={$opmlContent === "" }>Save file</button>
 </div>
