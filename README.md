@@ -13,4 +13,4 @@ Visit [opml.imadij.com](https://opml.imadij.com).
 - [CodeMirror](https://codemirror.net/) & [svelte-codemirror-editor](https://github.com/touchifyapp/svelte-codemirror-editor)
 
 ## LICENSE
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the AGPL-3.0 License - see the [LICENSE](LICENSE) file for details.
