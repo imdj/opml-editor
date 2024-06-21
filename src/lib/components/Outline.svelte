@@ -37,6 +37,11 @@
         }
     }
 
+    /*
+    - if parent is selected then all children should be selected
+    - if any child is unselected then its parent cannot be selected
+    - if all children are selected then parent should be selected automatically
+     */
     function selectItem(id) {
         if (!isSelected) {
             opml.selectItem = id;
@@ -49,9 +54,6 @@
 
         checkParent(item.parent_id);
     }
-    // if any child is unselected then parent should be unselected
-    // if parent is selected then all children should be selected
-    // if all children are selected then parent should be selected
 </script>
 
 <div class="flex flex-row w-full py-1 px-2" >
