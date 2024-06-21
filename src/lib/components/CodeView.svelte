@@ -52,4 +52,4 @@
     })
 </script>
 
-<div class="codemirror {classes}" bind:this={element}></div>
+<div class="codemirror flex flex-grow {classes}" bind:this={element}></div>
