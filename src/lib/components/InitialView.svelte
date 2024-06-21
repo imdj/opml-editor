@@ -20,7 +20,7 @@
         }
     }
 </script>
-<div class="flex w-full h-96 grow overflow-y-auto relative mt-4 p-2 border-2 rounded-xl items-center justify-center bg-slate-100">
+<div class="flex w-full h-96 grow overflow-y-auto relative p-2 rounded-xl items-center justify-center bg-slate-100">
     <label for="opmlFile" class="absolute flex flex-col text-lg text-center m-auto opacity-70 z-10 pointer-events-none">
         <svg xmlns="http://www.w3.org/2000/svg" class="inline-block self-center w-16 text-gray-500 mb-4" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 20h12m-6-4V4m0 0l3.5 3.5M12 4L8.5 7.5"/>
