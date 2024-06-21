@@ -1,136 +1,131 @@
-const opml = {
-    parse: parseOPML,
-    countFeeds: countFeeds,
-    removeDupes: removeDupesFromOPML,
-    createEmpty: createEmpty,
-    merge: merge,
-    removeItems: removeItems
-};
+// In case of merging multiple files we need to keep track of the id
+let universal_id = 0;
 
+export function parseHead(opmlString) {
+    if (!opmlString)
+        return [];
 
-export default opml;
-
-function parseOPML(opmlString) {
-    let id = 0;
-
-    // Parse the XML string into a document object
     const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(opmlString, "text/xml");
+    const doc = parser.parseFromString(opmlString, "text/xml");
+    const head = doc.querySelector("head");
+    return head?.children || [];
+}
 
-    // Recursive function to parse an outline element
-    const parseOutline = outline => {
-        // keep attributes for future use
-        const attributes = {};
-        for (let i = 0; i < outline.attributes.length; i++) {
-            const attr = outline.attributes[i];
-            attributes[attr.name] = attr.value;
+export function parseBody(opmlString) {
+    if (!opmlString)
+        return [];
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(opmlString, "text/xml");
+    const body = doc.querySelector("body");
+
+    if (!body)
+        return [];
+
+    const outlinesElements = body.querySelectorAll(":scope > outline");
+
+    function parseOutlines(parent_id, children) {
+        let outlines = []
+
+        if (!children.length)
+            return outlines;
+
+        for (const outline of children) {
+            let id = universal_id++;
+            let outlineObject = {
+                id: id,
+                parent_id: parent_id,
+                attributes: outline.attributes.length ? Object.fromEntries([...outline.attributes].map(attr => [attr.name, encodeValue(attr.value)])) : {},
+                children: outline.children.length ? parseOutlines(id, outline.children) : []
+            };
+
+            outlines.push(outlineObject);
         }
 
-        const isGroup = !outline.getAttribute("xmlUrl");
-        const children = [];
+        return outlines;
+    }
 
-        if (isGroup) {
-            const childOutlines = outline.querySelectorAll(":scope > outline");
-            childOutlines.forEach(childOutline => {
-                children.push(parseOutline(childOutline));
+    return parseOutlines(null, outlinesElements);
+}
+
+export function stringify(headChildNodes, outlines) {
+    let head = "";
+    let body = "";
+
+    if (headChildNodes.length) {
+        let headElement = document.createElement("head");
+        for (const node of headChildNodes) {
+            headElement.appendChild(node.cloneNode(true));
+        }
+        head = headElement.innerHTML;
+    }
+
+    if (outlines.length) {
+        function stringifyRecursive(nodeList) {
+            nodeList.forEach(node => {
+                body += `<outline ${Object.keys(node.attributes).map(key => `${key}="${node.attributes[key]}"`).join(" ")}>`;
+                if (node.children.length > 0) {
+                    stringifyRecursive(node.children);
+                }
+                body += "</outline>";
             });
         }
 
-        return { id, attributes, children };
-    };
+        stringifyRecursive(outlines);
+    }
 
-    const body = xmlDoc.querySelector("body");
-
-    const outlines = body.querySelectorAll(":scope > outline");
-
-    const result = [];
-
-    outlines.forEach(outline => {
-        result.push(parseOutline(outline));
-        id++;
-    });
-
-    return result;
+    // construct body
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<opml version="1.0">` + `<head>${head}</head>` + `<body>${body}</body>` + `</opml>`;
 }
 
-function countFeeds(opmlData) {
+export function countFeeds(outlines) {
+    if (!outlines.length)
+        return 0;
+
     let count = 0;
 
-    const countFeedsRecursive = data => {
-        data.forEach(item => {
-            if (item.attributes.xmlUrl) {
+    function countRecursive (nodeList) {
+        nodeList.forEach(node => {
+            if (node.attributes.xmlUrl) {
                 count++;
             }
-            if (item.children && item.children.length > 0) {
-                countFeedsRecursive(item.children);
+            if (node.children && node.children.length) {
+                countRecursive(node.children);
             }
         });
-    };
+    }
 
-    countFeedsRecursive(opmlData);
+    countRecursive(outlines);
     return count;
 }
 
-// keep metadata but remove duplicates based on the xmlUrl
-function removeDuplicates(opmlData) {
-    const unique = [];
+export function removeDuplicates(outlines) {
+    const unique = new Map();
 
-    const removeDuplicatesRecursive = data => {
-        data.forEach(item => {
-            if (item.attributes.xmlUrl) {
-                const existing = unique.find(feed => feed.attributes.xmlUrl === item.attributes.xmlUrl);
-                if (!existing) {
-                    unique.push(item);
-                }
-            }
-            else if (item.children && item.children.length > 0) {
-                item.children = removeDuplicates(item.children);
-                unique.push(item);
-            }
-            else {
-                unique.push(item);
+    function findUnique(nodeList) {
+        const filteredOutlines = [];
+
+        nodeList.forEach(item => {
+            if (item.attributes.xmlUrl && !unique.has(item.attributes.xmlUrl)) {
+                unique.set(item.attributes.xmlUrl, item);
+                filteredOutlines.push(item);
+            } else if (item.children?.length) {
+                item.children = findUnique(item.children);
+                filteredOutlines.push(item);
+            } else if (!item.attributes.xmlUrl) {
+                filteredOutlines.push(item);
             }
         });
-    };
 
-    removeDuplicatesRecursive(opmlData);
-    return unique;
+        return filteredOutlines;
+    }
+
+    return findUnique(outlines);
 }
 
-// keep metadata but remove duplicates based on the xmlUrl
-function removeDupesFromOPML(opmlString) {
-    const opmlData = parseOPML(opmlString);
-    const unique = removeDuplicates(opmlData);
-
-    const head = opmlString.substring(0, opmlString.indexOf("<body>"));
-
-    const opmlDoc = new DOMParser().parseFromString(head + "<body>\n</body></opml>", "text/xml");
-    const body = opmlDoc.querySelector("body");
-
-    const appendOutline = (parent, item) => {
-        const outline = opmlDoc.createElement("outline");
-        for (const key in item.attributes) {
-            outline.setAttribute(key, item.attributes[key]);
-        }
-        if (item.children) {
-            item.children.forEach(child => {
-                appendOutline(outline, child);
-            });
-        }
-        parent.appendChild(outline);
-    };
-
-
-    unique.forEach(item => {
-        appendOutline(body, item);
-    });
-
-    return new XMLSerializer().serializeToString(opmlDoc);
-}
-
-function createEmpty() {
+export function createEmpty() {
     return `<?xml version="1.0" encoding="UTF-8"?>
-<opml version="1.0">
+<opml version="2.0">
     <head>
         <title>Feeds</title>
     </head>
@@ -139,31 +134,54 @@ function createEmpty() {
 </opml>`;
 }
 
-function merge(og, newOPML) {
-    const opmlDoc = new DOMParser().parseFromString(og, "text/xml");
-    const bodyElement = opmlDoc.querySelector("body");
-
-    const newDoc = new DOMParser().parseFromString(newOPML, "text/xml");
-    const newBody = newDoc.querySelector("body");
-
-    bodyElement.append(...newBody.children);
-
-    return new XMLSerializer().serializeToString(opmlDoc);
+export function merge(outlines, newOutlines) {
+    return outlines.concat(newOutlines);
 }
 
-function removeItems(opmlString, items) {
-    const opmlDoc = new DOMParser().parseFromString(opmlString, "text/xml");
-    const body = opmlDoc.querySelector("body");
-    const outlines = body.querySelectorAll(":scope > outline");
+export function removeItems(outlines, itemsToDelete) {
+    const itemsSet = new Set(itemsToDelete);
 
-    // strip matching items from the opmlData
-    items.forEach(item => {
-        outlines.forEach(outline => {
-            if (outline.getAttribute("xmlUrl") === item.attributes.xmlUrl) {
-                body.removeChild(outline);
+    function removeRecursive(nodeList) {
+        return nodeList.map(node => {
+            if (itemsSet.has(node.id)) {
+                return null;
             }
-        });
-    });
-
-    return new XMLSerializer().serializeToString(opmlDoc);
+            else if (node.children.length) {
+                node.children = removeRecursive(node.children);
+            }
+            return node;
+        }).filter(node => node !== null);
+    }
+    return removeRecursive(outlines);
 }
+
+export function encodeValue(value) {
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+export function decodeValue(value) {
+    return value
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, "\"")
+        .replace(/&#39;/g, "'");
+}
+
+export default {
+    parseHead,
+    parseBody,
+    stringify,
+    countFeeds,
+    removeDuplicates,
+    createEmpty,
+    merge,
+    removeItems,
+    encodeValue,
+    decodeValue
+};

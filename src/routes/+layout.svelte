@@ -2,6 +2,11 @@
     import "../app.css";
     import Footer from "$lib/components/Footer.svelte";
     import Header from "$lib/components/Header.svelte";
+    import createState from "$lib/state.svelte.js";
+    import {setContext} from "svelte";
+
+    const opml = createState();
+    setContext("state", opml);
 </script>
 
 <div class="flex flex-col min-h-full grow bg-slate-50">

@@ -1,32 +1,68 @@
 <script>
+    import {decodeValue} from "$lib/opml.js";
     import {getContext} from "svelte";
 
-    let selectedItems = getContext('selectedItems');
+    let opml = getContext("state");
 
-    export let item;
-    export let isSelected = false;
+    let { item = $bindable()} = $props();
+    let isSelected = $derived(opml.selectedItems.includes(item.id));
 
-    function select() {
-        if ($selectedItems.some(e => e.id === item.id)) {
-            $selectedItems = $selectedItems.filter(e => e.id !== item.id);
-            isSelected = false;
-        } else {
-            $selectedItems = [...$selectedItems, item];
-            isSelected = true;
+    function deselectChildren(childrenList) {
+        if (childrenList.length)
+            childrenList.forEach(child => {
+                opml.deselectItem = child.id;
+                if (child.children.length)
+                    deselectChildren(child.children)
+            })
+    }
+
+    function selectChildren(childrenList) {
+        if (childrenList.length)
+            childrenList.forEach(child => {
+                opml.selectItem = child.id;
+                if (child.children.length)
+                    selectChildren(child.children);
+            })
+    }
+
+    function checkParent(parentID) {
+        if (!parentID) return;
+        let parent = opml.body.find(item => item.id === parentID);
+
+        if (opml.selectedItems.includes(parentID)) {
+            opml.deselectItem = parentID;
+        }
+        else if (parent?.children.length && parent.children.every(child => opml.selectedItems.includes(child.id))) {
+            opml.selectItem = parentID;
         }
     }
+
+    function selectItem(id) {
+        if (!isSelected) {
+            opml.selectItem = id;
+            selectChildren(item.children);
+        }
+        else {
+            opml.deselectItem = id;
+            deselectChildren(item.children);
+        }
+
+        checkParent(item.parent_id);
+    }
+    // if any child is unselected then parent should be unselected
+    // if parent is selected then all children should be selected
+    // if all children are selected then parent should be selected
 </script>
 
-
-<button class="flex flex-row w-full py-1 px-2" on:click={select}>
-    <input type="checkbox" class="mr-2 self-baseline mt-3" checked={isSelected} />
+<div class="flex flex-row w-full py-1 px-2" >
+    <input type="checkbox" class="mr-2 self-baseline mt-3" checked={isSelected} oninput={() => selectItem(item.id)} />
 
     {#if !item.attributes.xmlUrl}
         <details class="flex-grow text-start" open>
             <summary class="text-2xl">
-                {item.attributes.title}
+                {decodeValue(item.attributes.text)}
             </summary>
-            {#if item.children && item.children.length > 0}
+            {#if item.children.length}
                 <ul class="ml-4">
                     {#each item.children as child}
                         <li><svelte:self item={child}/></li>
@@ -38,8 +74,8 @@
         </details>
     {:else}
         <div class="flex-grow text-start">
-            <div class="text-2xl">{item.attributes.title}</div>
+            <div class="text-2xl">{decodeValue(item.attributes.text)}</div>
             <a href={item.attributes.xmlUrl} class="text-gray-500" target="_blank">{item.attributes.xmlUrl}</a>
         </div>
     {/if}
-</button>
+</div>
