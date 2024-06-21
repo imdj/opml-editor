@@ -2,6 +2,7 @@
     import {getContext} from "svelte";
     import xmlFormat from "xml-formatter";
     import {parseBody, merge, removeDuplicates, removeItems} from "$lib/opml.js"
+    import {selectChildren} from "$lib/utils.js";
 
     let { viewState = $bindable() } = $props()
 
@@ -40,12 +41,26 @@
         input.click();
     }
 
-    let all_selected = $state(false);
+    function selectAll() {
+        // deselect if all outlines are selected
+        if (all_selected) {
+            opml.selectedItems = []
+        }
+        // select all
+        else {
+            opml.body.forEach(item => {
+                opml.selectItem = item.id;
+                selectChildren(item.children);
+            })
+        }
+    }
+
+    let all_selected = $derived(opml.selectedItems.length && opml.body.every(item => opml.selectedItems.includes(item.id)))
 </script>
 
 <div class="sticky top-0 flex flex-row gap-1 bg-white z-10 w-full rounded-t-xl p-0.5 border-b-2">
     {#if viewState}
-        <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" onclick={() => {}}>
+        <button class="flex flex-row gap-2 py-1 px-2 items-center rounded-lg hover:bg-slate-200" onclick={selectAll}>
             <input type="checkbox" checked={all_selected} class="mr-1"/>
             {all_selected? 'Deselect all' : 'Select all'}
         </button>

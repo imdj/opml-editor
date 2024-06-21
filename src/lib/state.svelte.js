@@ -43,6 +43,9 @@ export default function createState() {
         get selectedItems() {
             return selectedItems;
         },
+        set selectedItems(list) {
+            selectedItems = list;
+        },
         set selectItem(id) {
             if (!selectedItems.includes(id)) {
                 selectedItems = [...selectedItems, id];

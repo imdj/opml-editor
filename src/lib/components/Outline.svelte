@@ -1,41 +1,12 @@
 <script>
     import {decodeValue} from "$lib/opml.js";
     import {getContext} from "svelte";
+    import {selectChildren, deselectChildren, checkParent} from "$lib/utils.js";
 
     let opml = getContext("state");
 
     let { item = $bindable()} = $props();
     let isSelected = $derived(opml.selectedItems.includes(item.id));
-
-    function deselectChildren(childrenList) {
-        if (childrenList.length)
-            childrenList.forEach(child => {
-                opml.deselectItem = child.id;
-                if (child.children.length)
-                    deselectChildren(child.children)
-            })
-    }
-
-    function selectChildren(childrenList) {
-        if (childrenList.length)
-            childrenList.forEach(child => {
-                opml.selectItem = child.id;
-                if (child.children.length)
-                    selectChildren(child.children);
-            })
-    }
-
-    function checkParent(parentID) {
-        if (!parentID) return;
-        let parent = opml.body.find(item => item.id === parentID);
-
-        if (opml.selectedItems.includes(parentID)) {
-            opml.deselectItem = parentID;
-        }
-        else if (parent?.children.length && parent.children.every(child => opml.selectedItems.includes(child.id))) {
-            opml.selectItem = parentID;
-        }
-    }
 
     /*
     - if parent is selected then all children should be selected
