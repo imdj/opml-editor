@@ -70,7 +70,7 @@
                 Remove selected
             </button>
         </div>
-        <button class="flex flex-row gap-2 py-1 px-2 whitespace-nowrap items-center rounded-lg hover:bg-slate-200" onclick={switchView}>
+        <button class="flex flex-row gap-2 py-1 px-2 whitespace-nowrap items-center rounded-tr-lg sm:rounded-lg border-l-2 sm:border-0 sm:bg-white text-black hover:bg-gray-200 sm:hover:bg-slate-200" onclick={switchView}>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 6L10 18.5m-3.5-10L3 12l3.5 3.5m11-7L21 12l-3.5 3.5"/></svg>
             <span class="hidden sm:inline-block">Raw OPML view</span>
         </button>
@@ -89,7 +89,7 @@
                 Remove duplicates
             </button>
         </div>
-        <button class="flex flex-row gap-2 py-1 px-2 whitespace-nowrap items-center rounded-lg hover:bg-slate-200" onclick={switchView}>
+        <button class="flex flex-row gap-2 py-1 px-2 whitespace-nowrap items-center rounded-tr-lg sm:rounded-lg border-l-2 sm:border-0 sm:bg-white text-black hover:bg-gray-200 sm:hover:bg-slate-200" onclick={switchView}>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3 13c3.6-8 14.4-8 18 0"/><path d="M12 17a3 3 0 1 1 0-6a3 3 0 0 1 0 6"/></g></svg>
             <span class="hidden sm:inline-block">Outliner view</span>
         </button>
