@@ -10,7 +10,7 @@ Visit [opml.imadij.com](https://opml.imadij.com).
 
 ## Acknowledgements
 - [Svelte](https://svelte.dev/)
-- [CodeMirror](https://codemirror.net/) & [svelte-codemirror-editor](https://github.com/touchifyapp/svelte-codemirror-editor)
+- [CodeMirror](https://codemirror.net/)
 
 ## LICENSE
 This project is licensed under the AGPL-3.0 License - see the [LICENSE](LICENSE) file for details.
