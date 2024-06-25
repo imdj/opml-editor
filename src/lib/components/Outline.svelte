@@ -27,7 +27,7 @@
     }
 </script>
 
-<div class="flex flex-row w-full py-1 px-2" >
+<div class="flex flex-row w-full py-1 px-2 border border-gray-200 hover:bg-gray-200" >
     <input type="checkbox" class="mr-2 self-baseline mt-3" checked={isSelected} oninput={() => selectItem(item.id)} />
 
     {#if !item.attributes.xmlUrl}
@@ -36,7 +36,7 @@
                 {decodeValue(item.attributes.text)}
             </summary>
             {#if item.children.length}
-                <ul class="ml-4">
+                <ul class="flex flex-col gap-2 ml-4">
                     {#each item.children as child}
                         <li><svelte:self item={child}/></li>
                     {/each}

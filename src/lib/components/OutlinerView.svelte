@@ -1,6 +1,7 @@
 <script>
     import Outline from "$lib/components/Outline.svelte";
     import {getContext} from "svelte";
+    import NewOutline from "$lib/components/NewOutline.svelte";
 
     const opml = getContext("state");
 
@@ -8,11 +9,21 @@
 </script>
 
 <div class="p-2 flex-grow {classes}">
-    <ul>
-        {#each opml.body as item}
-            <li class="hover:bg-gray-200" class:bg-gray-200={false}>
-                <Outline isSelected={false} {item}/>
+    {#if !opml.body.length}
+        <NewOutline/>
+    {:else}
+        <ul class="flex flex-col gap-2">
+            <li class="new-outline overflow-y-hidden">
+                <NewOutline/>
             </li>
-        {/each}
-    </ul>
+            {#each opml.body as item, i}
+                <li>
+                    <Outline isSelected={false} {item}/>
+                </li>
+                <li class="new-outline overflow-y-hidden">
+                    <NewOutline index={i+1}/>
+                </li>
+            {/each}
+        </ul>
+    {/if}
 </div>

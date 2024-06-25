@@ -173,6 +173,11 @@ export function decodeValue(value) {
         .replace(/&#39;/g, "'");
 }
 
+// id and increment it
+export function generateID() {
+    return universal_id++;
+}
+
 export default {
     parseHead,
     parseBody,
