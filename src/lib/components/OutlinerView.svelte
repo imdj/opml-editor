@@ -18,7 +18,7 @@
             </li>
             {#each opml.body as item, i}
                 <li>
-                    <Outline isSelected={false} {item}/>
+                    <Outline {item}/>
                 </li>
                 <li class="new-outline overflow-y-hidden">
                     <NewOutline index={i+1}/>
