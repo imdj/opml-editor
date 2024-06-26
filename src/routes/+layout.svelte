@@ -17,6 +17,8 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00004b">
     <meta name="msapplication-TileColor" content="#00004b">
     <meta name="theme-color" content="#ffffff">
+
+    <meta content="/thumbnail.jpg" property="og:image">
 </svelte:head>
 
 <div class="flex flex-col min-h-full grow bg-slate-50">
