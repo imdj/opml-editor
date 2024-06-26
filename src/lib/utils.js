@@ -1,29 +1,44 @@
-export function deselectChildren(childrenList) {
+export function deselectChildren(childrenList, state) {
     if (childrenList.length)
         childrenList.forEach(child => {
-            opml.deselectItem = child.id;
+            state.deselectItem = child.id;
             if (child.children.length)
-                deselectChildren(child.children)
+                deselectChildren(child.children, state);
         })
 }
 
-export function selectChildren(childrenList) {
+export function selectChildren(childrenList, state) {
     if (childrenList.length)
         childrenList.forEach(child => {
-            opml.selectItem = child.id;
+            state.selectItem = child.id;
             if (child.children.length)
-                selectChildren(child.children);
+                selectChildren(child.children, state);
         })
 }
 
-export function checkParent(parentID) {
+export function findById(nodeList, id) {
+    let result = null;
+
+    nodeList.forEach(node => {
+        if (node.id === id) {
+            result = node;
+        }
+        else if (node.children.length) {
+            findById(node.children, id);
+        }
+    });
+
+    return result;
+}
+
+export function checkParent(parentID, state) {
     if (!parentID) return;
-    let parent = opml.body.find(item => item.id === parentID);
+    let parent = findById(state.body, parentID);
 
-    if (opml.selectedItems.includes(parentID)) {
-        opml.deselectItem = parentID;
+    if (state.selectedItems.includes(parentID)) {
+        state.deselectItem = parentID;
     }
-    else if (parent?.children.length && parent.children.every(child => opml.selectedItems.includes(child.id))) {
-        opml.selectItem = parentID;
+    else if (parent?.children.length && parent.children.every(child => state.selectedItems.includes(child.id))) {
+        state.selectItem = parentID;
     }
 }

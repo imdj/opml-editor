@@ -16,14 +16,14 @@
     function selectItem(id) {
         if (!isSelected) {
             opml.selectItem = id;
-            selectChildren(item.children);
+            selectChildren(item.children, opml);
         }
         else {
             opml.deselectItem = id;
-            deselectChildren(item.children);
+            deselectChildren(item.children, opml);
         }
 
-        checkParent(item.parent_id);
+        checkParent(item.parent_id, opml);
     }
 </script>
 

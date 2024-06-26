@@ -50,7 +50,7 @@
         else {
             opml.body.forEach(item => {
                 opml.selectItem = item.id;
-                selectChildren(item.children);
+                selectChildren(item.children, opml);
             })
         }
     }
