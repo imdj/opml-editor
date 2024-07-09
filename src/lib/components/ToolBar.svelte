@@ -88,6 +88,10 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M7 2h9.5L21 6.5V19"/><path d="M11 22h5.5a1.5 1.5 0 0 0 1.5-1.5V8.749a.6.6 0 0 0-.176-.425l-3.148-3.148A.6.6 0 0 0 14.25 5H4.5A1.5 1.5 0 0 0 3 6.5V13m-1.008 6h6"/><path d="M14 5v3.4a.6.6 0 0 0 .6.6H18"/></g></svg>
                 Remove duplicates
             </button>
+            <button class="flex flex-row gap-2 py-1 px-2 whitespace-nowrap items-center rounded-lg hover:bg-slate-200" onclick={() => opml.rawContent = xmlFormat(opml.rawContent)}>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"><path stroke-linecap="round" d="m3 21l10-10m5-5l-2.5 2.5"/><path d="m9.5 2l.945 2.555L13 5.5l-2.555.945L9.5 9l-.945-2.555L6 5.5l2.555-.945zm9.5 8l.54 1.46L21 12l-1.46.54L19 14l-.54-1.46L17 12l1.46-.54z"/></g></svg>
+                Reformat file
+            </button>
         </div>
         <button class="flex flex-row gap-2 py-1 px-2 whitespace-nowrap items-center rounded-tr-lg sm:rounded-lg border-l-2 sm:border-0 sm:bg-white text-black hover:bg-gray-200 sm:hover:bg-slate-200" onclick={switchView}>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3 13c3.6-8 14.4-8 18 0"/><path d="M12 17a3 3 0 1 1 0-6a3 3 0 0 1 0 6"/></g></svg>
