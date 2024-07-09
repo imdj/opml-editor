@@ -9,14 +9,14 @@
 </script>
 
 <div class="p-2 flex-grow {classes}">
-    {#if !opml.body.length}
+    {#if !opml.body.children.length}
         <NewOutline/>
     {:else}
         <ul class="flex flex-col gap-2">
             <li class="new-outline overflow-y-hidden">
                 <NewOutline/>
             </li>
-            {#each opml.body as item, i}
+            {#each opml.body.children as item, i}
                 <li>
                     <Outline {item}/>
                 </li>

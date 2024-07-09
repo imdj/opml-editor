@@ -2,10 +2,10 @@
     import "../app.css";
     import Footer from "$lib/components/Footer.svelte";
     import Header from "$lib/components/Header.svelte";
-    import createState from "$lib/state.svelte.js";
+    import {opmlDoc} from "$lib/opml.svelte.js";
     import {setContext} from "svelte";
 
-    const opml = createState();
+    const opml = new opmlDoc();
     setContext("state", opml);
 </script>
 

@@ -4,7 +4,6 @@
     import { closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
     import { keymap } from "@codemirror/view";
     import { xml } from "@codemirror/lang-xml";
-    import xmlFormat from "xml-formatter";
 
     import {getContext, onMount} from 'svelte';
 
@@ -14,8 +13,10 @@
     const opml = getContext("state");
 
     const watcher = EditorView.updateListener.of((e) => {
-        if (e.docChanged && opml.rawContent !== e.state.doc.toString().valueOf())
-            opml.rawContent = e.state.doc.toString()
+        if (e.docChanged && opml.rawContent !== e.state.doc.toString().valueOf()) {
+            opml.rawContent = e.state.doc.toString().valueOf()
+            opml.parseDoc(e.state.doc.toString().valueOf());
+        }
     });
 
     let extensions = [
@@ -23,6 +24,7 @@
         history(),
         closeBrackets(),
         xml(),
+        EditorView.lineWrapping,
         keymap.of([
             ...defaultKeymap,
             ...historyKeymap,
@@ -33,7 +35,7 @@
 
     onMount(() => {
         const view = new EditorView({
-            doc: xmlFormat(opml.rawContent),
+            doc: opml.rawContent,
             extensions,
             parent: element,
         })
@@ -44,7 +46,7 @@
                     changes: {
                         from: 0,
                         to: view.state.doc.length,
-                        insert: xmlFormat(opml.rawContent)
+                        insert: opml.rawContent
                     }
                 })
             }
@@ -52,4 +54,16 @@
     })
 </script>
 
-<div class="codemirror flex flex-col flex-grow {classes}" bind:this={element}></div>
+<div class="codemirror flex flex-col flex-grow min-h-0 {classes}" bind:this={element}></div>
+
+<style>
+    .codemirror :global(.cm-scroller) {
+        overflow-x: unset;
+        overflow-y: auto;
+        overflow-wrap: normal;
+    }
+
+    .codemirror :global(.cm-editor) {
+        height: 100%;
+    }
+</style>

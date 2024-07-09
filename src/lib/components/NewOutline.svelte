@@ -1,6 +1,6 @@
 <script>
-    import {generateID} from "$lib/opml.js";
     import {getContext} from "svelte";
+    import {opmlNode} from "$lib/opml.svelte.js";
 
     let { index = 0 } = $props();
     let show = $state(false);
@@ -11,27 +11,28 @@
     const opml = getContext("state");
 
     function get_attributes() {
-        let attributes = {};
+        let attributes = new Map();
 
-        attributes.text = feedText;
+        attributes.set("text", feedText);
 
         if (feedUrl) {
-            attributes.xmlUrl = feedUrl;
-            attributes.type = "rss";
+            attributes.set("xmlUrl", feedUrl);
+            attributes.set("type", "rss");
         }
 
         return attributes;
     }
 
     function addOutline() {
-        const id = generateID();
 
-        opml.body = opml.body.toSpliced(index, 0, {
-            id: id,
-            parent_id: null,
-            attributes: get_attributes(),
-            children: []
-        });
+        const id = opml.generateId();
+
+        const outline = new opmlNode(id, opml.body.id);
+        outline.tagName = "outline";
+
+        outline.attributes = get_attributes();
+
+        opml.insertNode(outline.parent_id, outline, index);
 
         show = false;
     }

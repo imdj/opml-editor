@@ -1,12 +1,11 @@
 <script>
     import {decodeValue} from "$lib/opml.js";
     import {getContext} from "svelte";
-    import {selectChildren, deselectChildren, checkParent} from "$lib/utils.js";
 
     let opml = getContext("state");
 
     let { item = $bindable()} = $props();
-    let isSelected = $derived(opml.selectedItems.includes(item.id));
+    let isSelected = $derived(opml.selectedItems.has(item.id));
 
     /*
     - if parent is selected then all children should be selected
@@ -15,25 +14,25 @@
      */
     function selectItem(id) {
         if (!isSelected) {
-            opml.selectItem = id;
-            selectChildren(item.children, opml);
+            opml.selectedItems.add(id);
+            item.selectChildren(opml);
         }
         else {
-            opml.deselectItem = id;
-            deselectChildren(item.children, opml);
+            opml.selectedItems.delete(id);
+            item.deselectChildren(opml);
         }
 
-        checkParent(item.parent_id, opml);
+        item.checkParent(opml);
     }
 </script>
 
 <div class="flex flex-row w-full py-1 px-2 border border-gray-200 hover:bg-gray-200" >
-    <input type="checkbox" class="mr-2 self-baseline mt-3" checked={isSelected} oninput={() => selectItem(item.id)} />
+    <input type="checkbox" class="mr-2 self-baseline mt-3" checked={isSelected} title={"This items " + item.id + " is selected: " + isSelected} oninput={() => selectItem(item.id)} />
 
-    {#if !item.attributes.xmlUrl}
+    {#if !item.attributes.get('xmlUrl')}
         <details class="flex-grow text-start" open>
             <summary class="text-2xl">
-                {decodeValue(item.attributes.text)}
+                {decodeValue(item.attributes.get('text'))}
             </summary>
             {#if item.children.length}
                 <ul class="flex flex-col gap-2 ml-4">
@@ -47,8 +46,8 @@
         </details>
     {:else}
         <div class="flex-grow text-start">
-            <div class="text-2xl">{decodeValue(item.attributes.text)}</div>
-            <a href={item.attributes.xmlUrl} class="text-gray-500" target="_blank">{item.attributes.xmlUrl}</a>
+            <div class="text-2xl">{decodeValue(item.attributes.get('text'))}</div>
+            <a href={item.attributes.get('xmlUrl')} class="text-gray-500" target="_blank">{item.attributes.get('xmlUrl')}</a>
         </div>
     {/if}
 </div>
