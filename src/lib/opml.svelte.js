@@ -47,6 +47,30 @@ export class opmlNode {
             state.selectedItems.add(this.parent_id);
         }
     }
+
+    moveUp(state) {
+        // if top level outline
+        let parent = state.outlineMap.get(this.parent_id) || state.body;
+
+        let index = parent.children.findIndex(child => child.id === this.id);
+
+        if (index > 0) {
+            parent.children.splice(index, 1);
+            parent.children.splice(index - 1, 0, this);
+        }
+    }
+
+    moveDown(state) {
+        // if top level outline
+        let parent = state.outlineMap.get(this.parent_id) || state.body;
+
+        let index = parent.children.findIndex(child => child.id === this.id);
+
+        if (index < parent.children.length - 1) {
+            parent.children.splice(index, 1);
+            parent.children.splice(index + 1, 0, this);
+        }
+    }
 }
 
 export class opmlDoc {
