@@ -119,37 +119,35 @@ export class opmlDoc {
         }
     }
 
+    // only accepts ELEMENT_NODE and non-empty TEXT_NODE
     parseNode(domElement, parentID) {
-        let node = new opmlNode(this.generateId(), parentID);
+        if (domElement.nodeType === Node.ELEMENT_NODE || (domElement.nodeType === Node.TEXT_NODE && domElement.textContent.trim() !== "")) {
+            let node = new opmlNode(this.generateId(), parentID);
 
-        if (domElement.nodeType === Node.ELEMENT_NODE) {
-            node.nodeType = nodeType.ELEMENT_NODE;
-            node.tagName = domElement.tagName;
+            if (domElement.nodeType === Node.ELEMENT_NODE) {
+                node.nodeType = nodeType.ELEMENT_NODE;
+                node.tagName = domElement.tagName;
 
-            for (const attr of domElement.attributes) {
-                node.attributes.set(attr.name, encodeValue(attr.value));
+                for (const attr of domElement.attributes) {
+                    node.attributes.set(attr.name, encodeValue(attr.value));
+                }
+            } else {
+                node.nodeType = nodeType.TEXT_NODE;
+                node.textContent = domElement.textContent;
             }
-        }
-        else if (domElement.nodeType === Node.TEXT_NODE && domElement.textContent.trim()) {
-            node.nodeType = nodeType.TEXT_NODE;
-            node.textContent = domElement.textContent;
+
+            // We need to add node to maps before processing children
+            this.nodeMap.set(node.id, node);
+            if (node.tagName === "outline") {
+                this.outlineMap.set(node.id, node);
+            }
+
+            for (const child of domElement.childNodes) {
+                this.insertNode(node.id, this.parseNode(child, node.id));
+            }
+
             return node;
         }
-        else {
-            return;
-        }
-
-        // We need to add node to maps before processing children
-        this.nodeMap.set(node.id, node);
-        if (node.tagName === "outline") {
-            this.outlineMap.set(node.id, node);
-        }
-
-        for (const child of domElement.childNodes) {
-            this.insertNode(node.id, this.parseNode(child, node.id));
-        }
-
-        return node;
     }
 
     insertNode(parentID, element, index) {
