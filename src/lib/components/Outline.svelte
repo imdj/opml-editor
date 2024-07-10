@@ -9,6 +9,22 @@
 
     let showMenu = $state(false);
 
+    function handleMenu(node) {
+        function onClickOutside(event) {
+            if (!node.contains(event.target)) {
+                showMenu = false;
+            }
+        }
+
+        document.body.addEventListener('click', onClickOutside);
+
+        return {
+            destroy() {
+                document.body.removeEventListener('click', onClickOutside);
+            }
+        };
+    }
+
     /*
     - if parent is selected then all children should be selected
     - if any child is unselected then its parent cannot be selected
@@ -52,7 +68,7 @@
             <a href={item.attributes.get('xmlUrl')} class="text-gray-500" target="_blank">{item.attributes.get('xmlUrl')}</a>
         </div>
     {/if}
-    <div class="absolute flex flex-row-reverse gap-1 p-1 right-1 top-1 rounded-full" class:open-menu={showMenu}>
+    <div class="absolute flex flex-row-reverse gap-1 p-1 right-1 top-1 rounded-full" class:open-menu={showMenu}  use:handleMenu>
         <button class="rounded-full opacity-30 size-6 hover:opacity-100 hover:bg-gray-300" title="Open menu" class:hidden={showMenu} onclick={() => showMenu = true}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path fill="currentColor" d="M12 7.5a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1m0 10a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1m0-5a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10"/></g></svg>
         </button>
