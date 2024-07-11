@@ -203,6 +203,7 @@ export class opmlDoc {
                         <outline text="Feed 2" title="Feed 2" xmlUrl="https://example.com/feed2.xml"/>
                     </outline>
                     <outline text="Feed 3" title="Feed 3" xmlUrl="https://example.com/feed3.xml"/>
+                    <outline text="Duplicate feed example" title="Feed 3" xmlUrl="https://example.com/feed2.xml"/>
                 </body>
             </opml>`;
 
