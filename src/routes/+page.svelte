@@ -16,7 +16,8 @@
 </svelte:head>
 
 <div class="flex flex-col items-center">
-    <h1 class="text-4xl font-bold mt-8">Free Online OPML Editor</h1>
+    <h1 class="text-4xl font-bold mt-8 text-[#00004b]">Free Online OPML Editor</h1>
+    <p class="text-2xl mb-4 text-[#0052ff]">Manage your feed subscription lists</p>
 </div>
 <div class="flex flex-col w-full h-96 flex-grow mt-4 border-2 rounded-xl">
     {#if !opml.rawContent }
