@@ -13,15 +13,9 @@
         <NewOutline/>
     {:else}
         <ul class="flex flex-col gap-2">
-            <li class="new-outline overflow-y-hidden">
-                <NewOutline/>
-            </li>
-            {#each opml.body.children as item, i}
+            {#each opml.body.children as item, index}
                 <li>
-                    <Outline {item}/>
-                </li>
-                <li class="new-outline overflow-y-hidden">
-                    <NewOutline index={i+1}/>
+                    <Outline {item} {index}/>
                 </li>
             {/each}
         </ul>
