@@ -31,6 +31,7 @@
             {@html icon}
         {/if}
         <span>{name}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6"/></svg>
     </button>
 
     <div class="absolute shadow-2xl w-48 mt-2 rounded-lg bg-white p-1 z-30" class:hidden={!showMenu}>
