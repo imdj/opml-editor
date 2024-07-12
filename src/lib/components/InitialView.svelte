@@ -20,7 +20,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="inline-block self-center w-16 text-gray-500 mb-4" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 20h12m-6-4V4m0 0l3.5 3.5M12 4L8.5 7.5"/>
         </svg>
-        <span>Upload an OPML file or <button class="text-sky-500 hover:text-sky-700 pointer-events-auto" onclick={() => opml.createEmpty()}>Create a new one</button></span>
+        <span>Upload an OPML file or <button class="text-sky-500 hover:text-sky-700 pointer-events-auto" onclick={() => opml.createBasic()}>Create a new one</button></span>
     </label>
     <input type="file" accept=".opml" onchange={readFile} class="opacity-0 w-full h-full cursor-pointer"/>
 </div>

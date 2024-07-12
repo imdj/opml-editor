@@ -194,7 +194,7 @@ export class opmlDoc {
         parent.children.splice(index !== undefined ? index : parent.children.length, 0, element);
     }
  
-    createEmpty() {
+    createBasic() {
         const basicExample =
             `<?xml version="1.0" encoding="UTF-8"?>
             <opml version="2.0">
