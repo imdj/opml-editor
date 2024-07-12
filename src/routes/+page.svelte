@@ -16,7 +16,7 @@
     <meta name="description" content="Free OPML Editor. Online editor to create, edit, and merge OPML files easily.">
 </svelte:head>
 
-<div class="flex flex-col items-center">
+<div class="flex flex-col text-center">
     <h1 class="text-4xl font-bold mt-8 text-[#00004b]">Free Online OPML Editor</h1>
     <p class="text-2xl mb-4 text-[#0052ff]">Manage your feed subscription lists</p>
 </div>
