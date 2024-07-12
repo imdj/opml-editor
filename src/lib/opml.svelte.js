@@ -1,6 +1,5 @@
 import xmlFormat from "xml-formatter";
 import {SvelteMap, SvelteSet} from 'svelte/reactivity';
-import {encodeValue} from "$lib/opml.js";
 
 const nodeType = {
     ELEMENT_NODE: 'ELEMENT_NODE',
@@ -286,4 +285,22 @@ export class opmlDoc {
     generateId() {
         return this.uniqueID++;
     }
+}
+
+export function encodeValue(value) {
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+export function decodeValue(value) {
+    return value
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, "\"")
+        .replace(/&#39;/g, "'");
 }
