@@ -24,7 +24,6 @@
         history(),
         closeBrackets(),
         xml(),
-        EditorView.lineWrapping,
         keymap.of([
             ...defaultKeymap,
             ...historyKeymap,
@@ -58,9 +57,7 @@
 
 <style>
     .codemirror :global(.cm-scroller) {
-        overflow-x: unset;
         overflow-y: auto;
-        overflow-wrap: normal;
     }
 
     .codemirror :global(.cm-editor) {
