@@ -3,8 +3,9 @@
     import xmlFormat from "xml-formatter";
     import ActionMenu from "$lib/components/ActionMenu.svelte";
     import {opmlDoc} from "$lib/opml.svelte.js";
+    import {viewMode} from "$lib/opml.svelte.js";
 
-    let { outlinerView = $bindable() } = $props()
+    let { view = $bindable() } = $props()
 
     const opml = getContext("state")
 
@@ -36,14 +37,14 @@
     ])
 
     function switchView() {
-        outlinerView = !outlinerView;
-
         // update content when switching views
-        if (!outlinerView) {
+        if (view === viewMode.CODE) {
             opml.rawContent = opml.stringify();
+            view = viewMode.OUTLINER;
         }
         else {
             opml.parseDoc(opml.rawContent);
+            view = viewMode.CODE;
         }
     }
 
@@ -93,7 +94,7 @@
 </script>
 
 <div class="sticky top-0 flex flex-row bg-white z-10 w-full rounded-t-xl p-0.5 border-b-2">
-    {#if outlinerView}
+    {#if view === viewMode.OUTLINER}
         <div class="flex flex-row flex-grow gap-1 overflow-x-auto">
             <button class="flex flex-row gap-2 py-1 px-2 whitespace-nowrap items-center rounded-lg hover:bg-slate-200" onclick={selectAll} disabled={!opml.body.children.length}>
                 <input type="checkbox" checked={all_selected} class="mr-1"/>
@@ -104,10 +105,6 @@
                 Remove selected
             </button>
         </div>
-        <button class="flex flex-row gap-2 py-1 px-2 whitespace-nowrap items-center rounded-lg bg-white text-black hover:bg-slate-200" onclick={switchView}>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 6L10 18.5m-3.5-10L3 12l3.5 3.5m11-7L21 12l-3.5 3.5"/></svg>
-            <span>Raw OPML view</span>
-        </button>
     {:else}
         <div class="flex flex-row flex-grow gap-1">
             <ActionMenu
@@ -119,9 +116,13 @@
                 icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L5 14h6v7l8-11z"/></svg>'
                 items={EditMenu}/>
         </div>
-        <button class="flex flex-row gap-2 py-1 px-2 whitespace-nowrap items-center rounded-lg bg-white text-black hover:bg-slate-200" onclick={switchView}>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3 13c3.6-8 14.4-8 18 0"/><path d="M12 17a3 3 0 1 1 0-6a3 3 0 0 1 0 6"/></g></svg>
-            <span>Outliner view</span>
-        </button>
     {/if}
+    <div class="flex flex-row gap-1 ml-2">
+        <button class="py-1 px-2 whitespace-nowrap items-center rounded-lg text-black hover:bg-slate-200" class:bg-slate-200={view === viewMode.CODE} onclick={switchView} title="Raw OPML view">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 6L10 18.5m-3.5-10L3 12l3.5 3.5m11-7L21 12l-3.5 3.5"/></svg>
+        </button>
+        <button class="py-1 px-2 whitespace-nowrap items-center rounded-lg text-black hover:bg-slate-200" class:bg-slate-200={view === viewMode.OUTLINER} onclick={switchView} title="Outliner view">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3 13c3.6-8 14.4-8 18 0"/><path d="M12 17a3 3 0 1 1 0-6a3 3 0 0 1 0 6"/></g></svg>
+        </button>
+    </div>
 </div>

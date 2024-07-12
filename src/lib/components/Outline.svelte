@@ -1,6 +1,6 @@
 <script>
     import { mount } from 'svelte';
-    import {decodeValue} from "$lib/opml.js";
+    import {decodeValue} from "$lib/opml.svelte.js";
     import {getContext} from "svelte";
     import NewOutline from "$lib/components/NewOutline.svelte";
 

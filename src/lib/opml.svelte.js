@@ -1,6 +1,11 @@
 import xmlFormat from "xml-formatter";
 import {SvelteMap, SvelteSet} from 'svelte/reactivity';
 
+export const viewMode = {
+    OUTLINER: 'OUTLINER',
+    CODE: 'CODE'
+}
+
 const nodeType = {
     ELEMENT_NODE: 'ELEMENT_NODE',
     TEXT_NODE: 'TEXT_NODE'

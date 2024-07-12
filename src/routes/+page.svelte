@@ -3,11 +3,12 @@
     import CodeView from "$lib/components/CodeView.svelte";
     import InitialView from "$lib/components/InitialView.svelte";
     import ToolBar from "$lib/components/ToolBar.svelte";
+    import {viewMode} from "$lib/opml.svelte.js";
 
     import {getContext} from "svelte";
 
     const opml = getContext("state");
-    let outlinerView = $state(false);
+    let view = $state(viewMode.CODE);
 </script>
 
 <svelte:head>
@@ -23,8 +24,8 @@
     {#if !opml.rawContent }
         <InitialView />
     {:else}
-        <ToolBar bind:outlinerView/>
-        {#if outlinerView}
+        <ToolBar bind:view/>
+        {#if view === viewMode.OUTLINER}
             <OutlinerView classes="overflow-y-auto"/>
         {:else}
             <CodeView/>
