@@ -11,6 +11,11 @@
 
     const FileMenu = [
         {
+            name: "Open file",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M12 11h5m-5-4h5m-9 8V3.6a.6.6 0 0 1 .6-.6h11.8a.6.6 0 0 1 .6.6V17a4 4 0 0 1-4 4v0"/><path d="M5 15h7.4c.331 0 .603.267.63.597C13.153 17.115 13.78 21 17 21H6a3 3 0 0 1-3-3v-1a2 2 0 0 1 2-2"/></g></svg>`,
+            callback: openFile
+        },
+        {
             name: "Save file",
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 20h12M12 4v12m0 0l3.5-3.5M12 16l-3.5-3.5"/></svg>`,
             callback: saveToFile
@@ -46,6 +51,24 @@
             opml.parseDoc(opml.rawContent);
             view = viewMode.OUTLINER;
         }
+    }
+
+    function openFile() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".opml";
+        input.onchange = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    opml.rawContent = e.target.result;
+                    opml.parseDoc(e.target.result);
+                };
+                reader.readAsText(file);
+            }
+        };
+        input.click();
     }
 
     function saveToFile() {
