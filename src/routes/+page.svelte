@@ -5,10 +5,17 @@
     import ToolBar from "$lib/components/ToolBar.svelte";
     import {viewMode} from "$lib/opml.svelte.js";
 
-    import {getContext} from "svelte";
+    import {getContext, onMount } from "svelte";
 
     const opml = getContext("state");
     let view = $state(viewMode.CODE);
+
+    // create a basic example initially to introduce the user to the app
+    onMount(() => {
+        if (!opml.rawContent) {
+            opml.createBasic();
+        }
+    });
 </script>
 
 <svelte:head>
