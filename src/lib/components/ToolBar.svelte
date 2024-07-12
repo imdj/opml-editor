@@ -38,13 +38,13 @@
 
     function switchView() {
         // update content when switching views
-        if (view === viewMode.CODE) {
+        if (view === viewMode.OUTLINER) {
             opml.rawContent = opml.stringify();
-            view = viewMode.OUTLINER;
+            view = viewMode.CODE;
         }
         else {
             opml.parseDoc(opml.rawContent);
-            view = viewMode.CODE;
+            view = viewMode.OUTLINER;
         }
     }
 
