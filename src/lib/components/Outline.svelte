@@ -90,16 +90,16 @@
         <button class="rounded-full size-6 hover:bg-gray-300" title="Close" class:hidden={!showMenu} onclick={() => showMenu = false}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 14.828L12.001 12m2.828-2.828L12.001 12m0 0L9.172 9.172M12.001 12l2.828 2.828M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10"/></svg>
         </button>
-        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Move up" class:hidden={!showMenu} onclick={() => item.moveUp(opml)}>
+        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Move up" class:hidden={!showMenu} onclick={() => { item.moveUp(opml); showMenu = false}}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21V3m0 0l8.5 8.5M12 3l-8.5 8.5"/></svg>
         </button>
-        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Move down" class:hidden={!showMenu} onclick={() => item.moveDown(opml)}>
+        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Move down" class:hidden={!showMenu} onclick={() => { item.moveDown(opml); showMenu = false}}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v18m0 0l8.5-8.5M12 21l-8.5-8.5"/></svg>
         </button>
-        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Insert before" class:hidden={!showMenu} onclick={() => newOutline(index)}>
+        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Insert before" class:hidden={!showMenu} onclick={() => { newOutline(index); showMenu = false}}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 18v-4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1m8-9V5m-2 2h4"/></svg>
         </button>
-        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Insert after" class:hidden={!showMenu} onclick={() => newOutline(index + 1)}>
+        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Insert after" class:hidden={!showMenu} onclick={() => { newOutline(index + 1); showMenu = false}}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 6v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1m-8 9v4m2-2h-4"/></svg>
         </button>
     </div>
