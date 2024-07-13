@@ -1,14 +1,18 @@
 <script>
+    import { page } from '$app/stores'
     import {getContext} from "svelte";
     import xmlFormat from "xml-formatter";
     import ActionMenu from "$lib/components/ActionMenu.svelte";
     import {opmlDoc} from "$lib/opml.svelte.js";
     import {viewMode} from "$lib/opml.svelte.js";
+    import FeedModal from "$lib/components/FeedModal.svelte";
 
     let { view = $bindable() } = $props()
 
     const opml = getContext("state")
     let all_selected = $derived(opml.selectedItems.size && opml.body.children.every(item => opml.selectedItems.has(item.id)))
+
+    let addFeedModal = $state(false);
 
     let FileMenu = [
         {
@@ -29,6 +33,11 @@
     ]
 
     let EditMenu = $derived([
+        {
+            name: 'Add feed by URL',
+            icon : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-3-3v6M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>`,
+            callback: () => {addFeedModal = true}
+        },
         {
             name: "Remove duplicates",
             icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M7 2h9.5L21 6.5V19"/><path d="M11 22h5.5a1.5 1.5 0 0 0 1.5-1.5V8.749a.6.6 0 0 0-.176-.425l-3.148-3.148A.6.6 0 0 0 14.25 5H4.5A1.5 1.5 0 0 0 3 6.5V13m-1.008 6h6"/><path d="M14 5v3.4a.6.6 0 0 0 .6.6H18"/></g></svg>`,
@@ -147,3 +156,5 @@
         </button>
     </div>
 </div>
+
+<FeedModal bind:showModal={addFeedModal} />

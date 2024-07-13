@@ -20,6 +20,7 @@
 	"type": "module",
 	"dependencies": {
 		"@codemirror/lang-xml": "^6.1.0",
+		"@extractus/feed-extractor": "^7.1.3",
 		"codemirror": "^6.0.1",
 		"xml-formatter": "^3.6.2"
 	}

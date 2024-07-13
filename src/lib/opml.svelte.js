@@ -6,7 +6,7 @@ export const viewMode = {
     CODE: 'CODE'
 }
 
-const nodeType = {
+export const nodeType = {
     ELEMENT_NODE: 'ELEMENT_NODE',
     TEXT_NODE: 'TEXT_NODE'
 }
@@ -238,6 +238,19 @@ export class opmlDoc {
         }
         str += `</${node.tagName}>`;
         return str;
+    }
+
+    addFeed(text, xmlUrl, htmlUrl) {
+        let feedNode = new opmlNode(this.generateId(), this.body.id);
+        feedNode.tagName = "outline";
+        feedNode.nodeType = nodeType.ELEMENT_NODE;
+
+        feedNode.attributes.set("text", encodeValue(text));
+        feedNode.attributes.set("xmlUrl", encodeValue(xmlUrl));
+        feedNode.attributes.set("htmlUrl", encodeValue(htmlUrl));
+
+        this.insertNode(this.body.id, feedNode);
+        this.rawContent = this.stringify();
     }
 
     removeOutlineDupes() {
