@@ -19,8 +19,8 @@
 </script>
 
 <svelte:head>
-    <title>OPML Online Editor</title>
-    <meta name="description" content="Free OPML Editor. Online editor to create, edit, and merge OPML files easily.">
+    <title>Online OPML Editor: Manage your feed lists</title>
+    <meta name="description" content="Online editor for feed lists. Create, edit, and manage your OPML files. Add new RSS/Atom feeds to the list, detect and remove duplicates, rearrange outlines, and easily merge multiple OPML files together.">
 </svelte:head>
 
 <div class="flex flex-col text-center">
