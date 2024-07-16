@@ -1,6 +1,8 @@
-<svelte:head>
-    <title>About - OPML Editor</title>
-</svelte:head>
+<script>
+    import Head from "$lib/components/Head.svelte";
+</script>
+
+<Head title="About" />
 
 <h1>About</h1>
 

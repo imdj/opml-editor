@@ -1,4 +1,5 @@
 <script>
+    import Head from "$lib/components/Head.svelte";
     import OutlinerView from "$lib/components/OutlinerView.svelte";
     import CodeView from "$lib/components/CodeView.svelte";
     import InitialView from "$lib/components/InitialView.svelte";
@@ -18,10 +19,7 @@
     });
 </script>
 
-<svelte:head>
-    <title>Online OPML Editor: Manage your feed lists</title>
-    <meta name="description" content="Online editor for feed lists. Create, edit, and manage your OPML files. Add new RSS/Atom feeds to the list, detect and remove duplicates, rearrange outlines, and easily merge multiple OPML files together.">
-</svelte:head>
+<Head title="Online OPML Editor: Manage your feed lists" extension={false}/>
 
 <div class="flex flex-col text-center">
     <h1 class="text-2xl md:text-4xl font-bold mt-4 md:mt-8 mb-2 text-[#00004b]">Free Online OPML Editor</h1>
