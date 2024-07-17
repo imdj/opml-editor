@@ -211,15 +211,14 @@ export class opmlDoc {
                 </body>
             </opml>`;
 
-        this.parseDoc(basicExample);
-        this.rawContent = this.stringify();
+        this.rawContent = xmlFormat(basicExample, { lineSeparator: '\n' });
     }
 
     stringify() {
         let head = this.stringifyNode(this.head);
         let body = this.stringifyNode(this.body);
 
-        return xmlFormat(`<?xml version="1.0" encoding="UTF-8"?>\n<opml version="${this.version}">\n${head}\n${body}\n</opml>`);
+        return xmlFormat(`<?xml version="1.0" encoding="UTF-8"?>\n<opml version="${this.version}">\n${head}\n${body}\n</opml>`, { lineSeparator: '\n' });
     }
 
     // recursive function to convert node (including children) to string
