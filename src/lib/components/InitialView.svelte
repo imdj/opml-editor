@@ -9,7 +9,6 @@
             const reader = new FileReader();
             reader.onload = (e) => {
                 opml.rawContent = e.target.result;
-                opml.parseDoc(e.target.result);
             }
             reader.readAsText(file);
         }

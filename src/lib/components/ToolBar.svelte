@@ -63,13 +63,13 @@
     ])
 
     function switchView() {
-        // update content when switching views
         if (view === viewMode.OUTLINER) {
-            opml.rawContent = opml.stringify();
+            // we assign directly to the private variable (instead of rawContent)
+            // to avoid the unnecessary parsing call present in the setter function
+            opml._rawContent = opml.stringify();
             view = viewMode.CODE;
         }
         else {
-            opml.parseDoc(opml.rawContent);
             view = viewMode.OUTLINER;
         }
     }
@@ -84,7 +84,6 @@
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     opml.rawContent = e.target.result;
-                    opml.parseDoc(e.target.result);
                 };
                 reader.readAsText(file);
             }

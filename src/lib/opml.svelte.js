@@ -82,6 +82,9 @@ export class opmlDoc {
     head;
     body;
 
+    // debounce timeout for parsing the document again
+    parseTimeout;
+
     version = "2.0";
     nodeMap = $state(new SvelteMap());
     outlineMap = $state(new SvelteMap());
@@ -93,10 +96,16 @@ export class opmlDoc {
 
     set rawContent(value) {
         this._rawContent = value;
+        this.debounceParse(value);
     }
 
     get rawContent() {
         return this._rawContent;
+    }
+
+    debounceParse(fileString) {
+        clearTimeout(this.parseTimeout);
+        this.parseTimeout = setTimeout(() => this.parseDoc(fileString), 500);
     }
 
     parseDoc(fileString) {
@@ -249,7 +258,8 @@ export class opmlDoc {
         feedNode.attributes.set("htmlUrl", encodeValue(htmlUrl));
 
         this.insertNode(this.body.id, feedNode);
-        this.rawContent = this.stringify();
+        // Updating the private variable directly to avoid re-parsing and assignment coupled with the getter function for rawContent
+        this._rawContent = this.stringify();
     }
 
     removeOutlineDupes() {
@@ -265,7 +275,7 @@ export class opmlDoc {
             }
         });
 
-        this.rawContent = this.stringify();
+        this._rawContent = this.stringify();
     }
 
     deleteNodeById(id) {
@@ -290,13 +300,15 @@ export class opmlDoc {
         this.selectedItems.forEach(id => {
             this.deleteNodeById(id);
         });
+
+        this._rawContent = this.stringify();
     }
 
     append(outlines) {
         for (const outline of outlines) {
             this.insertNode(this.body.id, outline);
         }
-        this.rawContent = this.stringify();
+        this._rawContent = this.stringify();
     }
 
     generateId() {
