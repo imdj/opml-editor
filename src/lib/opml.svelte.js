@@ -62,6 +62,8 @@ export class opmlNode {
             parent.children.splice(index, 1);
             parent.children.splice(index - 1, 0, this);
         }
+
+        state._rawContent = state.stringify();
     }
 
     moveDown(state) {
@@ -74,6 +76,8 @@ export class opmlNode {
             parent.children.splice(index, 1);
             parent.children.splice(index + 1, 0, this);
         }
+
+        state._rawContent = state.stringify();
     }
 }
 
