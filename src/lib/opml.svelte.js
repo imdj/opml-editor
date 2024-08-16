@@ -23,6 +23,14 @@ export class opmlNode {
         this.parent_id = parent_id;
     }
 
+    deleteAttribute(name) {
+        this.attributes.delete(name);
+    }
+
+    setAttribute(name, value="") {
+        this.attributes.set(name, value);
+    }
+
     deleteChildById(id) {
         this.children = this.children.filter(c => c.id !== id);
     }
@@ -170,7 +178,7 @@ export class opmlDoc {
                 node.tagName = domElement.tagName;
 
                 for (const attr of domElement.attributes) {
-                    node.attributes.set(attr.name, encodeValue(attr.value));
+                    node.setAttribute(attr.name, encodeValue(attr.value));
                 }
             } else {
                 node.nodeType = nodeType.TEXT_NODE;
@@ -252,14 +260,31 @@ export class opmlDoc {
         return str;
     }
 
+    getAllAttributes() {
+        let uniqueAttributes = new Set();
+
+        this.outlineMap.forEach(outline => {
+            outline.attributes.forEach((_, attrName) => {
+                    uniqueAttributes.add(attrName);
+                }
+            )
+        });
+        return Array.from(uniqueAttributes);
+    }
+
+    deleteAttributeForAll(name) {
+        this.outlineMap.forEach(outline => outline.deleteAttribute(name))
+        this._rawContent = this.stringify();
+    }
+
     addFeed(text, xmlUrl, htmlUrl) {
         let feedNode = new opmlNode(this.generateId(), this.body.id);
         feedNode.tagName = "outline";
         feedNode.nodeType = nodeType.ELEMENT_NODE;
 
-        feedNode.attributes.set("text", encodeValue(text));
-        feedNode.attributes.set("xmlUrl", encodeValue(xmlUrl));
-        feedNode.attributes.set("htmlUrl", encodeValue(htmlUrl));
+        feedNode.setAttribute("text", encodeValue(text));
+        feedNode.setAttribute("xmlUrl", encodeValue(xmlUrl));
+        feedNode.setAttribute("htmlUrl", encodeValue(htmlUrl));
 
         this.insertNode(this.body.id, feedNode);
         // Updating the private variable directly to avoid re-parsing and assignment coupled with the getter function for rawContent
