@@ -21,5 +21,5 @@
         </svg>
         <span>Upload an OPML file or <button class="text-sky-500 hover:text-sky-700 pointer-events-auto" onclick={() => opml.createBasic()}>Create a new one</button></span>
     </label>
-    <input type="file" accept=".opml" onchange={readFile} class="opacity-0 w-full h-full cursor-pointer"/>
+    <input type="file" accept=".opml,.xml" onchange={readFile} class="opacity-0 w-full h-full cursor-pointer"/>
 </div>

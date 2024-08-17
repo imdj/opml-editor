@@ -84,7 +84,7 @@
     function openFile() {
         const input = document.createElement("input");
         input.type = "file";
-        input.accept = ".opml";
+        input.accept = ".opml,.xml";
         input.onchange = function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -111,7 +111,7 @@
     function mergeFile() {
         const input = document.createElement("input");
         input.type = "file";
-        input.accept = ".opml";
+        input.accept = ".opml,.xml";
         input.onchange = function(event) {
             const file = event.target.files[0];
             if (file) {
