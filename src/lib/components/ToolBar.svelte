@@ -6,6 +6,7 @@
     import {opmlDoc} from "$lib/opml.svelte.js";
     import {viewMode} from "$lib/opml.svelte.js";
     import FeedModal from "$lib/components/FeedModal.svelte";
+    import AttributesModal from "$lib/components/AttributesModal.svelte";
 
     let { view = $bindable() } = $props()
 
@@ -13,6 +14,7 @@
     let all_selected = $derived(opml.selectedItems.size && opml.body.children.every(item => opml.selectedItems.has(item.id)))
 
     let addFeedModal = $state(false);
+    let attributesModal = $state(false);
 
     let FileMenu = [
         {
@@ -37,6 +39,11 @@
             name: 'Add feed by URL',
             icon : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-3-3v6M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>`,
             callback: () => {addFeedModal = true}
+        },
+        {
+            name: "Toggle attributes",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 8H5m0 4h7m0 4H5m11-2l4 4m0-4l-4 4"/></svg>`,
+            callback: () => {attributesModal = true}
         },
         {
             name: "Remove duplicates",
@@ -157,3 +164,4 @@
 </div>
 
 <FeedModal bind:showModal={addFeedModal} />
+<AttributesModal bind:showModal={attributesModal} />
