@@ -18,6 +18,6 @@
     <meta name="theme-color" content="#ffffff">
 
     <title>{completeTitle}</title>
-    <meta name="description" content="Online editor for feed lists. Create, edit, and manage your OPML files. Add new RSS/Atom feeds to the list, detect and remove duplicates, rearrange outlines, and easily merge multiple OPML files together.">
+    <meta name="description" content="Edit and view OPML files online for free. Manage your feed lists more easily. Create, merge, remove duplicates, rearrange outlines, add new RSS or Atom feeds, and more.">
     <meta content="/thumbnail.jpg" property="og:image">
 </svelte:head>
