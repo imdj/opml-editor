@@ -38,5 +38,8 @@
     {/if}
 </div>
 <div class="flex flex-row w-full items-center mt-4 gap-2 flex-wrap">
-    <p class="text-lg">Number of feeds: {opml.numOfFeeds}</p>
+    <p class="text-lg">
+        <span class="text-gray-500">Number of feeds:</span>
+        <span class="px-1">{opml.numOfFeeds}</span>
+    </p>
 </div>
