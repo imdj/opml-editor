@@ -1,6 +1,6 @@
 <script>
     import { page } from '$app/stores'
-    import {getContext} from "svelte";
+    import {getContext, onDestroy} from "svelte";
     import xmlFormat from "xml-formatter";
     import ActionMenu from "$lib/components/ActionMenu.svelte";
     import {opmlDoc} from "$lib/opml.svelte.js";
@@ -15,6 +15,16 @@
 
     let addFeedModal = $state(false);
     let attributesModal = $state(false);
+
+    // handle keyboard shortcuts
+    let isCtrlPressed = $state(false);
+    window.addEventListener('keydown', handleShortcuts);
+    window.addEventListener('keyup', handleShortcuts);
+
+    onDestroy(() => {
+        window.removeEventListener('keydown', handleShortcuts);
+        window.removeEventListener('keyup', handleShortcuts);
+    });
 
     let FileMenu = [
         {
@@ -138,6 +148,40 @@
                 opml.selectedItems.add(item.id);
                 opml.body.selectChildren(opml);
             })
+        }
+    }
+
+    function handleShortcuts(e) {
+        // Don't interfere with input fields
+        if (['input', 'textarea'].includes(e.target.tagName.toLowerCase())) return;
+
+        if (e.type === 'keyup' && e.key.toLowerCase() === 'control') {
+            isCtrlPressed = false;
+        }
+        else if (e.type === 'keydown' && e.key.toLowerCase() === 'control') {
+            isCtrlPressed = true;
+        }
+        else if (e.type === 'keydown' && isCtrlPressed) {
+            switch (e.key.toLowerCase()) {
+                case 'a':
+                    e.preventDefault();
+                    addFeedModal = true; 
+                    break;
+                case 'd':
+                    e.preventDefault();
+                    opml.removeOutlineDupes();
+                    break;
+                case 's':
+                    e.preventDefault();
+                    saveToFile();
+                    break;
+                case 'm':
+                    e.preventDefault();
+                    switchView();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 </script>
