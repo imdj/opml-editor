@@ -63,7 +63,7 @@
 
     {#if item.children.length }
         <details class="flex-grow text-start" open>
-            <summary class="text-2xl align-top">{decodeValue(item.attributes.get('text'))}</summary>
+            <summary class="text-lg font-semibold align-top">{decodeValue(item.attributes.get('text'))}</summary>
             {#if item.attributes.get('xmlUrl')}
                 <a href={item.attributes.get('xmlUrl')} class="text-gray-500" target="_blank">{item.attributes.get('xmlUrl')}</a>
             {/if}
@@ -79,7 +79,7 @@
         </details>
     {:else}
         <div class="flex-grow text-start">
-            <div class="text-2xl align-top">{decodeValue(item.attributes.get('text'))}</div>
+            <div class="text-lg font-semibold align-top">{decodeValue(item.attributes.get('text'))}</div>
             <a href={item.attributes.get('xmlUrl')} class="text-gray-500" target="_blank">{item.attributes.get('xmlUrl')}</a>
         </div>
     {/if}
