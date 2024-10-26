@@ -152,16 +152,12 @@
     }
 
     function handleShortcuts(e) {
-        // Don't interfere with input fields
-        if (['input', 'textarea'].includes(e.target.tagName.toLowerCase())) return;
+        // Prevent shortcuts from firing when a modal is open
+        // or the intention was to select all i.e. Ctrl+A is pressed while in codemirror
+        const isSelectAll = document.activeElement.closest('.codemirror') && e.type === 'keydown' && e.key.toLowerCase() === 'a' && e.ctrlKey;        
+        if (isSelectAll || addFeedModal) return;
 
-        if (e.type === 'keyup' && e.key.toLowerCase() === 'control') {
-            isCtrlPressed = false;
-        }
-        else if (e.type === 'keydown' && e.key.toLowerCase() === 'control') {
-            isCtrlPressed = true;
-        }
-        else if (e.type === 'keydown' && isCtrlPressed) {
+        else if (e.type === 'keydown' && e.ctrlKey) {
             switch (e.key.toLowerCase()) {
                 case 'a':
                     e.preventDefault();
