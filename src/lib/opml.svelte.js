@@ -91,8 +91,8 @@ export class opmlNode {
 
 export class opmlDoc {
     uniqueID;
-    head;
-    body;
+    head = $state(new opmlNode(0));
+    body = $state(new opmlNode(1));
 
     // debounce timeout for parsing the document again
     parseTimeout;
