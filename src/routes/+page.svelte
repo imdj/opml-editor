@@ -6,7 +6,7 @@
     import {viewMode} from "$lib/opml.svelte.js";
 
     import {getContext, onMount } from "svelte";
-    import ShortcutsBanner from "$lib/components/toolbar/ShortcutsBanner.svelte";
+    import ShortcutBar from "$lib/components/toolbar/ShortcutBar.svelte";
 
     const opml = getContext("state");
     let view = $state(viewMode.CODE);
@@ -28,7 +28,7 @@
     <h1 class="text-2xl md:text-4xl font-bold mt-4 md:mt-8 mb-2 text-[#00004b]">Free Online OPML Editor</h1>
     <p class="text-base md:text-2xl mb-2 md:mb-4 text-[#0052ff]" >Manage your feed subscription lists</p>
 </div>
-<ShortcutsBanner class="mt-2"/>
+<ShortcutBar class="mt-2"/>
 <div class="flex flex-col w-full h-96 flex-grow mt-2 border-2 rounded-xl">
     {#if !opml.rawContent }
         <InitialView />
