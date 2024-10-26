@@ -1,5 +1,4 @@
 <script>
-    import Head from "$lib/components/Head.svelte";
     import OutlinerView from "$lib/components/OutlinerView.svelte";
     import CodeView from "$lib/components/CodeView.svelte";
     import InitialView from "$lib/components/InitialView.svelte";
@@ -11,6 +10,7 @@
 
     const opml = getContext("state");
     let view = $state(viewMode.CODE);
+    const title = "Online OPML Editor: Manage your feed lists";
 
     // create a basic example initially to introduce the user to the app
     onMount(() => {
@@ -20,8 +20,10 @@
     });
 </script>
 
-<Head title="Online OPML Editor: Manage your feed lists" extension={false}/>
-
+<svelte:head>
+    <title>{title}</title>
+</svelte:head>
+    
 <div class="flex flex-col text-center">
     <h1 class="text-2xl md:text-4xl font-bold mt-4 md:mt-8 mb-2 text-[#00004b]">Free Online OPML Editor</h1>
     <p class="text-base md:text-2xl mb-2 md:mb-4 text-[#0052ff]" >Manage your feed subscription lists</p>

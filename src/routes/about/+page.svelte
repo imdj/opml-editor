@@ -1,8 +1,10 @@
 <script>
-    import Head from "$lib/components/Head.svelte";
+    const title = "About";
 </script>
 
-<Head title="About" />
+<svelte:head>
+    <title>{title} - Online OPML Editor</title>
+</svelte:head>
 
 <h1>About</h1>
 

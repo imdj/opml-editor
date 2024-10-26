@@ -1,5 +1,5 @@
 <script>
-    import Head from "$lib/components/Head.svelte";
+    const title = "Features";
 
     let features = [
         {
@@ -25,7 +25,9 @@
     ]
 </script>
 
-<Head title="Features" />
+<svelte:head>
+    <title>{title} - Online OPML Editor</title>
+</svelte:head>
 
 <h1 class="mb-12">Features</h1>
 
