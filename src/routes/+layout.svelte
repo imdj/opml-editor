@@ -11,7 +11,7 @@
 
 <div class="flex flex-col min-h-full grow bg-slate-50">
     <Header />
-    <main class="flex flex-col container mx-auto grow px-6 py-8">
+    <main class="flex flex-col container mx-auto grow px-2 pt-8 pb-2">
         <slot />
     </main>
     <Footer />
