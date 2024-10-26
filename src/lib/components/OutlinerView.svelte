@@ -1,7 +1,7 @@
 <script>
-    import Outline from "$lib/components/Outline.svelte";
+    import Outline from "$lib/components/outliner/Outline.svelte";
     import {getContext} from "svelte";
-    import NewOutline from "$lib/components/NewOutline.svelte";
+    import NewOutline from "$lib/components/outliner/NewOutline.svelte";
 
     const opml = getContext("state");
 

@@ -2,7 +2,7 @@
     import { mount } from 'svelte';
     import {decodeValue} from "$lib/opml.svelte.js";
     import {getContext} from "svelte";
-    import NewOutline from "$lib/components/NewOutline.svelte";
+    import NewOutline from "$lib/components/outliner/NewOutline.svelte";
 
     let opml = getContext("state");
 

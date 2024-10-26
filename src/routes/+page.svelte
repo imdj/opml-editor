@@ -2,11 +2,11 @@
     import OutlinerView from "$lib/components/OutlinerView.svelte";
     import CodeView from "$lib/components/CodeView.svelte";
     import InitialView from "$lib/components/InitialView.svelte";
-    import ToolBar from "$lib/components/ToolBar.svelte";
+    import ToolBar from "$lib/components/toolbar/ToolBar.svelte";
     import {viewMode} from "$lib/opml.svelte.js";
 
     import {getContext, onMount } from "svelte";
-    import ShortcutsBanner from "../lib/components/ShortcutsBanner.svelte";
+    import ShortcutsBanner from "$lib/components/toolbar/ShortcutsBanner.svelte";
 
     const opml = getContext("state");
     let view = $state(viewMode.CODE);

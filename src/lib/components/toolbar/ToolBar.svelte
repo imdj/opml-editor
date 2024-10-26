@@ -2,11 +2,11 @@
     import { page } from '$app/stores'
     import {getContext, onDestroy} from "svelte";
     import xmlFormat from "xml-formatter";
-    import ActionMenu from "$lib/components/ActionMenu.svelte";
+    import ActionMenu from "$lib/components/toolbar/ActionMenu.svelte";
     import {opmlDoc} from "$lib/opml.svelte.js";
     import {viewMode} from "$lib/opml.svelte.js";
-    import FeedModal from "$lib/components/FeedModal.svelte";
-    import AttributesModal from "$lib/components/AttributesModal.svelte";
+    import FeedModal from "$lib/components/modals/FeedModal.svelte";
+    import AttributesModal from "$lib/components/modals/AttributesModal.svelte";
 
     let { view = $bindable() } = $props()
 
