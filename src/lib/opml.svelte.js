@@ -117,7 +117,7 @@ export class opmlDoc {
 
     debounceParse(fileString) {
         clearTimeout(this.parseTimeout);
-        this.parseTimeout = setTimeout(() => this.parseDoc(fileString), 500);
+        this.parseTimeout = setTimeout(() => this.parseDoc(fileString), 300);
     }
 
     parseDoc(fileString) {
