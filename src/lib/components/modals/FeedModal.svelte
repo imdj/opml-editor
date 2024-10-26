@@ -9,10 +9,12 @@
     let feedURL = $state("");
     let errorMessage = $state("");
     let successMessage = $state("");
+    let inputElement = $state(null);
 
     $effect(() => {
         if (dialogElement && showModal) {
             dialogElement.showModal();
+            inputElement.focus();
         }
     });
 
@@ -61,7 +63,7 @@
                     addFeed(result.data)
                 }
             }}}>
-            <input name="feed-url" class="block w-full rounded px-2 py-1 border-2 border-gray-300 mb-2" type="url" placeholder="Enter URL" bind:value={feedURL} />
+            <input name="feed-url" class="block w-full rounded px-2 py-1 border-2 border-gray-300 mb-2" type="url" placeholder="Enter URL" bind:value={feedURL} bind:this={inputElement} required/>
             {#if errorMessage}
                 <p class="text-red-500 text-sm mb-2">{errorMessage}</p>
                 <p class="text-sm mb-2">Note: you can ignore this error and force add the feed</p>
