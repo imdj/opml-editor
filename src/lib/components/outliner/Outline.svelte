@@ -3,6 +3,7 @@
     import {decodeValue} from "$lib/opml.svelte.js";
     import {getContext} from "svelte";
     import NewOutline from "$lib/components/outliner/NewOutline.svelte";
+    import Self from "$lib/components/outliner/Outline.svelte";
 
     let opml = getContext("state");
 
@@ -70,7 +71,7 @@
             {#if item.children.length}
                 <ul class="flex flex-col gap-2 ml-4 mt-2">
                     {#each item.children as child, index}
-                        <li><svelte:self item={child} {index}/></li>
+                        <li><Self item={child} {index}/></li>
                     {/each}
                 </ul>
             {:else}
