@@ -4,6 +4,7 @@
     import {getContext} from "svelte";
     import NewOutline from "$lib/components/outliner/NewOutline.svelte";
     import Self from "$lib/components/outliner/Outline.svelte";
+    import AddNewOutlineButton from "$lib/components/outliner/AddNewOutlineButton.svelte";
 
     let opml = getContext("state");
 
@@ -60,7 +61,7 @@
 </script>
 
 <div bind:this={currentElement} class="outline-container relative flex flex-row w-full p-2 border-2 rounded-md bg-white border-gray-200">
-    <input type="checkbox" class="mr-2 self-baseline mt-3" checked={isSelected} title={"This items " + item.id + " is selected: " + isSelected} oninput={() => selectItem(item.id)} />
+    <input type="checkbox" class="mr-2 self-start mt-2" checked={isSelected} title={"This items " + item.id + " is selected: " + isSelected} oninput={() => selectItem(item.id)} />
 
     {#if item.children.length }
         <details class="flex-grow text-start" open>
@@ -72,6 +73,7 @@
                 <ul class="flex flex-col gap-2 ml-4 mt-2">
                     {#each item.children as child, index}
                         <li><Self item={child} {index}/></li>
+                        <AddNewOutlineButton index={index + 1} parentID={item.id}/>
                     {/each}
                 </ul>
             {:else}
@@ -96,12 +98,6 @@
         </button>
         <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Move down" class:hidden={!showMenu} onclick={() => { item.moveDown(opml); showMenu = false}}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v18m0 0l8.5-8.5M12 21l-8.5-8.5"/></svg>
-        </button>
-        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Insert before" class:hidden={!showMenu} onclick={() => { newOutline(index); showMenu = false}}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 18v-4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1m8-9V5m-2 2h4"/></svg>
-        </button>
-        <button class="rounded-full size-6 p-0.5 hover:bg-gray-300" title="Insert after" class:hidden={!showMenu} onclick={() => { newOutline(index + 1); showMenu = false}}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 6v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1m-8 9v4m2-2h-4"/></svg>
         </button>
     </div>
 </div>

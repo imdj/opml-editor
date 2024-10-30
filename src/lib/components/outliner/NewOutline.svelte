@@ -1,12 +1,13 @@
 <script>
+    import {getContext} from "svelte";
     import {opmlNode} from "$lib/opml.svelte.js";
 
-    let {parentID, opml, index = 0 } = $props();
+    let {parentID, index = 0, isOpen = $bindable() } = $props();
+
+    const opml = getContext("state");
 
     let feedText = $state("");
     let feedUrl = $state("");
-
-    let thisComponent;
 
     function get_attributes() {
         let attributes = new Map();
@@ -26,17 +27,16 @@
 
         const outline = new opmlNode(id, parentID);
         outline.tagName = "outline";
-
         outline.attributes = get_attributes();
 
         opml.insertNode(outline.parent_id, outline, index);
-
-        thisComponent.remove();
+        
+        isOpen = false;
     }
 </script>
 
-<form bind:this={thisComponent} class="relative flex flex-col gap-2 p-2 border border-dashed rounded-lg" onsubmit={addOutline}>
-    <button class="absolute self-end" type="button" onclick={() => thisComponent.remove()}>
+<form class="relative flex flex-col gap-2 p-2 border border-dashed rounded-lg" onsubmit={addOutline}>
+    <button class="absolute self-end" type="button" onclick={() => isOpen = false}>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.758 17.243L12.001 12m5.243-5.243L12 12m0 0L6.758 6.757M12.001 12l5.243 5.243"/></svg>
     </button>
     <label for="feed-text">Text</label>

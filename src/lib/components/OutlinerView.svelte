@@ -2,6 +2,7 @@
     import Outline from "$lib/components/outliner/Outline.svelte";
     import {getContext} from "svelte";
     import NewOutline from "$lib/components/outliner/NewOutline.svelte";
+    import AddNewOutlineButton from "$lib/components/outliner/AddNewOutlineButton.svelte";
 
     const opml = getContext("state");
 
@@ -17,6 +18,7 @@
                 <li>
                     <Outline {item} {index}/>
                 </li>
+                <AddNewOutlineButton index={index + 1} parentID={item.parent_id}/>
             {/each}
         </ul>
     {/if}
