@@ -21,6 +21,10 @@
         {
             title: "Rearrange feeds",
             description: "Change the order of your feeds interactively",
+        },
+        {
+            title: "Generate OPML from bulk URLs",
+            description: "Turn a list of feed URLs into an OPML file with a single click",
         }
     ]
 </script>

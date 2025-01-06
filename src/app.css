@@ -39,5 +39,5 @@ a {
 }
 
 button {
-    @apply disabled:opacity-50 disabled:pointer-events-none;
+    @apply disabled:text-black disabled:opacity-40 disabled:bg-gray-400 disabled:pointer-events-none;
 }

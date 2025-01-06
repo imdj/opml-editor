@@ -37,7 +37,7 @@
         {#if view === viewMode.OUTLINER}
             <OutlinerView classes="overflow-y-auto"/>
         {:else}
-            <CodeView/>
+            <CodeView bind:content={opml.rawContent}/>
         {/if}
     {/if}
 </div>

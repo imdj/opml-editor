@@ -2,20 +2,18 @@
     import { EditorView, basicSetup } from "codemirror";
     import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
     import { closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
-    import { keymap } from "@codemirror/view";
+    import { keymap, placeholder } from "@codemirror/view";
+    import { EditorState } from "@codemirror/state";
     import { xml } from "@codemirror/lang-xml";
 
-    import {getContext, onMount} from 'svelte';
-    import xmlFormat from "xml-formatter";
+    import {onMount} from 'svelte';
 
-    let { classes } = $props();
+    let { class: classes, content = $bindable(), placeholder: placeholderText, readonly } = $props();
     let element;
-
-    const opml = getContext("state");
 
     const watcher = EditorView.updateListener.of((e) => {
         if (e.docChanged) {
-            opml.rawContent = e.state.doc.toString().valueOf()
+            content = e.state.doc.toString().valueOf()
         }
     });
 
@@ -24,6 +22,8 @@
         history(),
         closeBrackets(),
         xml(),
+        placeholder(placeholderText),
+        EditorState.readOnly.of(readonly),
         keymap.of([
             ...defaultKeymap,
             ...historyKeymap,
@@ -34,19 +34,19 @@
 
     onMount(() => {
         const view = new EditorView({
-            doc: opml.rawContent,
+            doc: content,
             extensions,
             parent: element,
         })
 
         $effect(() => {
             // compare against formatted view.state because rawContent is formatted when updated using stringify
-            if (opml.rawContent !== view.state.doc.toString().valueOf()) {
+            if (content !== view.state.doc.toString().valueOf()) {
                 view.dispatch({
                     changes: {
                         from: 0,
                         to: view.state.doc.length,
-                        insert: opml.rawContent
+                        insert: content
                     }
                 })
             }
@@ -54,7 +54,7 @@
     })
 </script>
 
-<div class="codemirror flex flex-col flex-grow min-h-0 {classes}" bind:this={element}></div>
+<div class="codemirror flex flex-col flex-grow w-full min-h-0 {classes}" bind:this={element}></div>
 
 <style>
     .codemirror :global(.cm-scroller) {
