@@ -7,6 +7,7 @@
     import {viewMode} from "$lib/opml.svelte.js";
     import FeedModal from "$lib/components/modals/FeedModal.svelte";
     import AttributesModal from "$lib/components/modals/AttributesModal.svelte";
+    import { beforeNavigate } from '$app/navigation';
 
     let { view = $bindable() } = $props()
 
@@ -24,6 +25,12 @@
     onDestroy(() => {
         window.removeEventListener('keydown', handleShortcuts);
         window.removeEventListener('keyup', handleShortcuts);
+    });
+
+    beforeNavigate((navigation) => {
+        if (opml.lastSaved < opml.lastModified && navigation.type === 'leave') {
+            navigation.cancel();
+        }
     });
 
     let FileMenu = [
@@ -115,6 +122,7 @@
         a.href = url;
         a.download = "feeds.opml";
         a.click();
+        opml.lastSaved = new Date().getTime(); 
         URL.revokeObjectURL(url);
     }
 

@@ -102,12 +102,15 @@ export class opmlDoc {
     outlineMap = $state(new SvelteMap());
     selectedItems = $state(new SvelteSet());
     numOfFeeds = $derived(Array.from(this.outlineMap.values()).reduce((acc, outline) => acc + outline.attributes.has("xmlUrl"), 0));
+    lastSaved = $state(new Date().getTime());
+    lastModified = $state(new Date().getTime());
 
     // private to avoid recursive updates
     _rawContent = $state("");
 
     set rawContent(value) {
         this._rawContent = value;
+        this.lastModified = new Date().getTime();
         this.debounceParse(value);
     }
 
