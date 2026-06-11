@@ -16,11 +16,14 @@ Visit the web app here: [opml.imadij.com](https://opml.imadij.com)
 - Organize and rearrange your feeds interactively
 - Subscribe to new feeds
 - Keyboard shortcuts for common functionalities
+- Extract URLs from OPML files
+- Generate OPML files from a list of URLs
 
 ## Acknowledgements
 - [Dave Winer](http://davewiner.com/) for creating the OPML format and all the effort he has put into the ecosystem
-- [Svelte](https://svelte.dev/) a frontend framework that's a joy to work with
-- [CodeMirror](https://codemirror.net/) an excellent and extensible code editing component
+- [Svelte](https://svelte.dev/) as the web framework of choice
+- [CodeMirror](https://codemirror.net/) as the code editor
+- [Iconoir](https://iconoir.com/) as the icon set
 
 ## LICENSE
 This project is licensed under the AGPL-3.0 License - see the [LICENSE](LICENSE) file for details.
