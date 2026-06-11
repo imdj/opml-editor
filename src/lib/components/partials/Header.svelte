@@ -15,6 +15,7 @@
     <nav class="hidden md:flex flex-row gap-2">
         <a class="block py-2 px-3 rounded hover:bg-slate-200 no-underline" href="/">Editor</a>
         <a class="block py-2 px-3 rounded hover:bg-slate-200 no-underline" href="/generator">Generator</a>
+        <a class="block py-2 px-3 rounded hover:bg-slate-200 no-underline" href="/extractor">Extractor</a>
     </nav>
 
     <div class="relative inline-block ml-auto" on:focusout={handleDropdownFocusLoss}>
@@ -24,6 +25,7 @@
         <ul class="absolute shadow-2xl w-48 right-0 rounded-lg bg-white p-1" style:visibility={isDropdownOpen ? 'visible' : 'hidden'}>
             <li><a class="block p-2 rounded hover:bg-slate-200 no-underline md:hidden" href="/">Editor</a></li>
             <li><a class="block p-2 rounded hover:bg-slate-200 no-underline md:hidden" href="/generator">Generator</a></li>
+            <li><a class="block p-2 rounded hover:bg-slate-200 no-underline md:hidden" href="/extractor">Extractor</a></li>
             <li><a class="block p-2 rounded hover:bg-slate-200 no-underline" href="/features">Features</a></li>
             <li><a class="block p-2 rounded hover:bg-slate-200 no-underline" href="/about">About</a></li>
         </ul>

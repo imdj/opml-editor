@@ -25,6 +25,10 @@
         {
             title: "Generate OPML from bulk URLs",
             description: "Turn a list of feed URLs into an OPML file with a single click",
+        },
+        {
+            title: "Extract URLs from OPML",
+            description: "Extract all feed URLs from an OPML file into a plain text list, one URL per line",
         }
     ]
 </script>
